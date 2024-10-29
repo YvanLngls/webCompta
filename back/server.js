@@ -32,6 +32,7 @@ wss.on('connection', (ws) => {
         clients.at(id).send(JSON.stringify(getEntriesServerInit))
         break;
       case "submitEntryClient":
+        // Ajout d'une entrée
         entries.push(data.data)
         const getEntriesServer = {messageType:"getEntriesServer",
           data:entries

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-view-entry',
@@ -9,8 +9,8 @@ import { Component } from '@angular/core';
 })
 export class ViewEntryComponent {
 
-  date = "dd/mm/yyyy"
-  value = 0
-  note = "/"
+  @Input() date:string = "dd/mm/yyyy"
+  @Input() value:string = "0"
+  @Input() note:string = "/"
 
 }

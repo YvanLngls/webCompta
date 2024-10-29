@@ -8,8 +8,10 @@ import { Subject } from 'rxjs';
 export class DashboardService {
 
   userName = "Yvan"
-  private entries = new Subject<string[]>()
-  private entriesSize = new Subject<number>()
+  private entriesType = new Subject<string[]>()
+  private entriesDate = new Subject<string[]>()
+  private entriesValue = new Subject<string[]>()
+  private entriesNote = new Subject<string[]>()
 
   constructor(private wsSocket:WebsocketService){
     const initClient = {
@@ -21,8 +23,18 @@ export class DashboardService {
       const data = JSON.parse(dataString)
       switch(data.messageType){
         case "getEntriesServer":
-          console.log(data.data)
-          this.entries.next(data.data)
+          console.log(JSON.stringify(data.data))
+          let types: string[] = [], dates: string[] = [], values: string[] = [], notes: string[] = []
+          data.data.forEach((e: { entryType: string; entryDate: string; entryValue: string; entryNote: string; }) => {
+            types.push(e.entryType)
+            dates.push(e.entryDate)
+            values.push(e.entryValue)
+            notes.push(e.entryNote)
+          });
+          this.entriesType.next(types)
+          this.entriesDate.next(dates)
+          this.entriesValue.next(values)
+          this.entriesNote.next(notes)
           break
         default:
           break
@@ -37,7 +49,16 @@ export class DashboardService {
     this.wsSocket.sendMessage(JSON.stringify(submitEntryClient))
   }
 
-  getEntries(){
-    return this.entries.asObservable()
+  getEntriesType(){
+    return this.entriesType.asObservable()
+  }
+  getEntriesDate(){
+    return this.entriesDate.asObservable()
+  }
+  getEntriesValue(){
+    return this.entriesValue.asObservable()
+  }
+  getEntriesNote(){
+    return this.entriesNote.asObservable()
   }
 }

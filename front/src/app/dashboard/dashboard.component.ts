@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { EditEntryComponent } from '../edit-entry/edit-entry.component';
 import { ViewEntryComponent } from '../view-entry/view-entry.component';
 import { DashboardService } from '../dashboard.service';
@@ -7,6 +8,7 @@ import { DashboardService } from '../dashboard.service';
   selector: 'app-dashboard',
   standalone: true,
   imports: [
+    CommonModule,
     EditEntryComponent,
     ViewEntryComponent
   ],
@@ -15,14 +17,18 @@ import { DashboardService } from '../dashboard.service';
 })
 export class DashboardComponent {
 
-  entriesSize = 0
-  data = 0
+  entriesType:string[] = []
+  entriesDate:string[] = []
+  entriesValue:string[] = []
+  entriesNote:string[] = []
+
   constructor(private dashboardService:DashboardService){ }
 
   ngOnInit(){
-    this.dashboardService.getEntries().subscribe(d=>{
-      this.data = d.length
-    })
+    this.dashboardService.getEntriesType().subscribe(d=>this.entriesType = d)
+    this.dashboardService.getEntriesDate().subscribe(d=>this.entriesDate = d)
+    this.dashboardService.getEntriesValue().subscribe(d=>this.entriesValue = d)
+    this.dashboardService.getEntriesNote().subscribe(d=>this.entriesNote = d)
   }
 
 }
