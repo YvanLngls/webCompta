@@ -19,10 +19,14 @@ export class EditEntryComponent {
   constructor(private dashboardService:DashboardService){ }
 
   submitEntry(){
-    this.dashboardService.submitEntry("entryType:"+(this.entryType?"1":"0")
-      +",entryDate:"+this.entryDate
-      +",entryValue:"+this.entryValue
-      +",entryNote:"+this.entryNote)
+
+    const entryData = {entryType: this.entryType,
+      entryDate: this.entryDate,
+      entryValue: this.entryValue,
+      entryNote: this.entryNote
+    }
+
+    this.dashboardService.submitEntry(entryData)
   }
 
 }
