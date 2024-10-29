@@ -1,46 +1,50 @@
-<div class="border rounded-xl border-black p-2 m-4 w-full">
-    <div class="flex">
-        <ul class="w-1/2">
-            <li class="flex growth my-2">
-                <span class="p-2">Type (Revenu/Dépense)</span>
-            </li>
-            <li class="flex growth my-4">
-                <span class="p-2">Date</span>
-            </li>
-            <li class="flex growth my-4">
-                <span class="p-2">Montant</span> 
-            </li>
-            <li class="flex growth my-4">
-                <span class="p-2">Note</span>
-            </li>
-        </ul>
-        
-        <ul class="w-1/2">
-            <li class="flex growth my-4">
-                <div class="p-2">
-                    <input type="checkbox" [(ngModel)]="entryType">
-                </div> 
-            </li>
-            <li class="flex growth my-4">
-                <div class="p-2">
-                    <input type="date" [(ngModel)]="entryDate">
-                </div>
-            </li>
-            <li class="flex growth my-4">
-                <div class="border-2 rounded-xl border-black p-2">
-                    <input type="number" [(ngModel)]="entryValue">
-                </div>
-            </li>
-            <li class="flex growth my-4">
-                <div class="border-2 border-black rounded-xl p-2">
-                    <input type="text" [(ngModel)]="entryNote">
-                </div>
-            </li>
-        </ul>
-    </div>
-    <div class="w-full flex justify-center">
-        <div class="border-2 rounded-xl border-black p-2">
-            <button (click)="submitEntry()">Ajouter</button>
+<div class="border rounded-xl border-white p-8 my-4 w-full flex justify-center">
+    <div class="w-3/4 flex flex-col items-center">
+        <div class="flex w-1/2">
+            <ul class="w-full">
+                <li class="flex growth my-2">
+                    <span class="p-4" [class.hidden]="entryType">Revenu</span>
+                    <span class="p-4" [class.hidden]="!entryType">Dépense</span>
+                </li>
+                <li class="flex growth my-4">
+                    <span class="p-4">Date</span>
+                </li>
+                <li class="flex growth my-4">
+                    <span class="p-4">Montant</span> 
+                </li>
+                <li class="flex growth my-4">
+                    <span class=" px-4">Note</span>
+                </li>
+            </ul>
+            
+            <ul class="w-full">
+                <li class="flex growth my-4">
+                    <div class="p-2">
+                        <mat-slide-toggle [(ngModel)]="entryType"></mat-slide-toggle>
+                        <!-- <input type="checkbox" [(ngModel)]="entryType" class="hidden"> -->
+                    </div> 
+                </li>
+                <li class="flex growth my-4">
+                    <div class="p-2">
+                        <input type="date" [(ngModel)]="entryDate" class="border-2 rounded-xl border-black p-2 bg-white text-black">
+                    </div>
+                </li>
+                <li class="flex growth my-4">
+                    <div class="border-2 rounded-xl border-black p-2 bg-white text-black">
+                        <input type="number" [(ngModel)]="entryValue">
+                    </div>
+                </li>
+                <li class="flex growth my-4">
+                    <div class="border-2 border-black rounded-xl p-2 bg-white text-black">
+                        <input type="text" [(ngModel)]="entryNote">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="w-full flex justify-center">
+            <div class="border-2 rounded-xl border-white p-2">
+                <button (click)="submitEntry()">Ajouter</button>
+            </div>
         </div>
     </div>
 </div>

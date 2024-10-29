@@ -1,11 +1,14 @@
 import { Component} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DashboardService } from '../dashboard.service';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-edit-entry',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule,
+    MatSlideToggleModule
+  ],
   templateUrl: './edit-entry.component.html',
   styleUrl: './edit-entry.component.css'
 })

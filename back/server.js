@@ -22,7 +22,6 @@ redisClient.on('error', (err)=>{
 redisClient.connect()
 
 /*
-
 sudo systemctl start redis
 
 // Enregistrer une valeur
