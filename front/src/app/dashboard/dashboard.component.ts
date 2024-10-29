@@ -16,12 +16,12 @@ import { DashboardService } from '../dashboard.service';
 export class DashboardComponent {
 
   entriesSize = 0
-  data = ""
+  data:string|undefined = ""
   constructor(private dashboardService:DashboardService){ }
 
   ngOnInit(){
     this.dashboardService.getEntries().subscribe(d=>{
-      this.data = d
+      this.data = d.at(0)
     })
   }
 
