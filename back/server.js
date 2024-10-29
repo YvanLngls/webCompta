@@ -1,5 +1,7 @@
 const express = require('express')
 const { Server } = require('ws')
+const redis = require('redis')
+const redisClient = redis.createClient()
 
 const app = express()
 const port = 3003
@@ -9,6 +11,34 @@ app.use(express.static('public'))
 const server = app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
 })
+
+
+redisClient.on('connect', ()=>{
+  console.log('Redis database connection established successfully')
+})
+redisClient.on('error', (err)=>{
+  console.error('Redis error : ',err)
+})
+redisClient.connect()
+
+/*
+
+sudo systemctl start redis
+
+// Enregistrer une valeur
+client.set('key', 'value', (err, reply) => {
+  if (err) console.error(err);
+  console.log(reply); // OK
+});
+
+// Récupérer une valeur
+client.get('key', (err, value) => {
+  if (err) console.error(err);
+  console.log(value); // 'value'
+});
+ */
+
+
 
 const wss = new Server({ server })
 let clients = []
