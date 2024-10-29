@@ -2,12 +2,16 @@ import { Component} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DashboardService } from '../dashboard.service';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { DatePipe, registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr);
 
 @Component({
   selector: 'app-edit-entry',
   standalone: true,
   imports: [FormsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    DatePipe
   ],
   templateUrl: './edit-entry.component.html',
   styleUrl: './edit-entry.component.css'
@@ -15,7 +19,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 export class EditEntryComponent {
 
   entryType: boolean = false
-  entryDate: string = "0"
+  entryDate: string = ""
   entryValue: string = "0"
   entryNote: string = "/" 
 
@@ -24,7 +28,7 @@ export class EditEntryComponent {
   submitEntry(){
 
     const entryData = {entryType: this.entryType,
-      entryDate: this.entryDate,
+      entryDate: new DatePipe("fr-FR").transform(this.entryDate,"dd/MM/yyyy"),
       entryValue: this.entryValue,
       entryNote: this.entryNote
     }

@@ -3,17 +3,17 @@
         <div class="flex w-1/2">
             <ul class="w-full">
                 <li class="flex growth my-2">
-                    <span class="p-4" [class.hidden]="entryType">Revenu</span>
-                    <span class="p-4" [class.hidden]="!entryType">Dépense</span>
+                    <span class="p-4 mt-1" [class.hidden]="entryType">Revenu</span>
+                    <span class="p-4 mt-1" [class.hidden]="!entryType">Dépense</span>
                 </li>
                 <li class="flex growth my-4">
                     <span class="p-4">Date</span>
                 </li>
                 <li class="flex growth my-4">
-                    <span class="p-4">Montant</span> 
+                    <span class="py-2 px-4">Montant</span> 
                 </li>
                 <li class="flex growth my-4">
-                    <span class=" px-4">Note</span>
+                    <span class="py-4 px-4">Note</span>
                 </li>
             </ul>
             
@@ -21,7 +21,6 @@
                 <li class="flex growth my-4">
                     <div class="p-2">
                         <mat-slide-toggle [(ngModel)]="entryType"></mat-slide-toggle>
-                        <!-- <input type="checkbox" [(ngModel)]="entryType" class="hidden"> -->
                     </div> 
                 </li>
                 <li class="flex growth my-4">

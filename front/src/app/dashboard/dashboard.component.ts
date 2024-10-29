@@ -25,11 +25,7 @@ export class DashboardComponent {
   constructor(private dashboardService:DashboardService){ }
 
   ngOnInit(){
-    this.dashboardService.getEntriesType().subscribe(d=>{
-      this.entriesType = d
-      if(d[0].toString()==="false")
-        console.log(d[0].toString())
-    })
+    this.dashboardService.getEntriesType().subscribe(d=>this.entriesType = d)
     this.dashboardService.getEntriesDate().subscribe(d=>this.entriesDate = d)
     this.dashboardService.getEntriesValue().subscribe(d=>this.entriesValue = d)
     this.dashboardService.getEntriesNote().subscribe(d=>this.entriesNote = d)

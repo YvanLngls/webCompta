@@ -13,13 +13,44 @@ const server = app.listen(port, () => {
 })
 
 
+let tableNames = []
+
 redisClient.on('connect', ()=>{
   console.log('Redis database connection established successfully')
 })
 redisClient.on('error', (err)=>{
   console.error('Redis error : ',err)
 })
-redisClient.connect()
+
+startRedisRoutine();
+
+async function startRedisRoutine() {
+  await redisClient.connect();
+  try {
+    // Chargement des infos générales sur la bdd
+    const infosSize = await redisClient.get('infos.size');
+    for(let i = 0; i<infosSize; i++){
+      let cour = await redisClient.get('infos.'+i)
+      tableNames.push(cour)
+    }
+
+    // Chargement des tables
+    loadTable(0)
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function loadTable(id){
+  let tableSize = await redisClient.get(tableNames[id]+'.infos.size')
+  for(let j = 0; j<tableSize; j++){
+    let entryData = {entryType: await redisClient.get(tableNames[id]+"."+j+".type"),
+      entryDate: await redisClient.get(tableNames[id]+"."+j+".date"),
+      entryValue: await redisClient.get(tableNames[id]+"."+j+".value"),
+      entryNote: await redisClient.get(tableNames[id]+"."+j+".note")}
+    entries.push(entryData)
+  }
+}
 
 /*
 sudo systemctl start redis
@@ -36,7 +67,6 @@ client.get('key', (err, value) => {
   console.log(value); // 'value'
 });
  */
-
 
 
 const wss = new Server({ server })
