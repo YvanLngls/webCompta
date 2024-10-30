@@ -31,7 +31,7 @@ async function startRedisRoutine() {
   await redisClient.connect();
   try {
     // Chargement des infos générales sur la bdd
-    const infosSize = await redisClient.get('infos.size');
+    const infosSize = await redisClient.get('infos.size')
     for(let i = 0; i<infosSize; i++){
       let cour = await redisClient.get('infos.'+i)
       tableNames.push(cour)
@@ -59,10 +59,23 @@ async function loadTable(id){
   }
 }
 
+async function sendTableInfosToClient(clientId){
+  let listTableSize = []
+  let infosSize = await redisClient.get('infos.size');
+  for(let i = 0; i<infosSize; i++){
+    let sizeCour = await redisClient.get(tableNames[i]+".infos.size")
+    listTableSize.push(sizeCour)
+  }
+  let getTableInfosServer = {messageType:"getTableInfosServer", listTableSize:listTableSize}
+  clients.at(clientId).send(JSON.stringify(getTableInfosServer))
+}
+
 async function sendEntriesToClient(clientId, tableId){
   await loadTable(tableId)
-  let getEntriesServer = {messageType:"getEntriesServer",
-    data:entries
+  let tableType = Number(await redisClient.get(tableNames[tableId]+".infos.type"))
+  let tableFullName = await redisClient.get(tableNames[tableId]+".infos.name")
+  let getEntriesServer = {messageType:"getEntriesServer", tableType:tableType,
+    tableFullName:tableFullName, data:entries
   }
   if(clientId<0) broadcast(JSON.stringify(getEntriesServer))
   else clients.at(clientId).send(JSON.stringify(getEntriesServer))
@@ -123,6 +136,7 @@ wss.on('connection', (ws) => {
         }
         clients.at(id).send(JSON.stringify(getTableChoiceServerInit))
         sendTotalToClient(id, lastTable)
+        sendTableInfosToClient(id)
         break;
       case "submitEntryClient":
         // Ajout d'une entrée

@@ -8,12 +8,15 @@ import { Subject } from 'rxjs';
 export class DashboardService {
 
   userName = "Yvan"
+  private tableType = new Subject<number>()
+  private tableFullName = new Subject<string>()
   private entriesType = new Subject<string[]>()
   private entriesDate = new Subject<string[]>()
   private entriesValue = new Subject<string[]>()
   private entriesNote = new Subject<string[]>()
   private tableChoice = new Subject<string[]>()
   private total = new Subject<string[]>()
+  private listTableSize = new Subject<string[]>()
 
   constructor(private wsSocket:WebsocketService){
     const initClient = {
@@ -37,6 +40,8 @@ export class DashboardService {
           this.entriesDate.next(dates)
           this.entriesValue.next(values)
           this.entriesNote.next(notes)
+          this.tableType.next(data.tableType)
+          this.tableFullName.next(data.tableFullName)
           break
         case "getTableChoiceServer":
           let choice: string[] = []
@@ -48,6 +53,9 @@ export class DashboardService {
         case "getTotalServer":
           let array = [data.totIncome, data.totExpense]
           this.total.next(array)
+          break
+        case "getTableInfosServer":
+          this.listTableSize.next(data.listTableSize)
           break
         default:
           break
@@ -67,6 +75,12 @@ export class DashboardService {
     this.wsSocket.sendMessage(JSON.stringify(changeTableClient))
   }
 
+  getTableType(){
+    return this.tableType.asObservable()
+  }
+  getTableFullname(){
+    return this.tableFullName.asObservable()
+  }
   getEntriesType(){
     return this.entriesType.asObservable()
   }
@@ -85,5 +99,8 @@ export class DashboardService {
   }
   getTotal(){
     return this.total.asObservable()
+  }
+  getListTableSize(){
+    return this.listTableSize.asObservable()
   }
 }

@@ -1,3 +1,7 @@
-<div>
+<div class="p-4">
     Base de donnée
+</div>
+
+<div *ngFor="let choice of tableChoice; let i = index">
+    ({{i}}) {{choice}} : {{tableSize[i]}} entrées
 </div>
