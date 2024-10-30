@@ -63,22 +63,6 @@ async function changeLastTable(id){
   await redisClient.set('infos.lastTable', id)
 }
 
-/*
-sudo systemctl start redis
-
-// Enregistrer une valeur
-client.set('key', 'value', (err, reply) => {
-  if (err) console.error(err);
-  console.log(reply); // OK
-});
-
-// Récupérer une valeur
-client.get('key', (err, value) => {
-  if (err) console.error(err);
-  console.log(value); // 'value'
-});
- */
-
 
 const wss = new Server({ server })
 let clients = []

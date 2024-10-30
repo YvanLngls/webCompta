@@ -1,4 +1,7 @@
 ## Organisation de la base de données
+
+`sudo systemctl start redis`
+
 La base de donnée est organisée de la manière suivante :
 
 infos -> informations sur la bdd
