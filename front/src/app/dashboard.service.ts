@@ -26,9 +26,9 @@ export class DashboardService {
     this.wsSocket.sendMessage(JSON.stringify(initClient))
     this.wsSocket.onMessage((dataString:string)=>{
       const data = JSON.parse(dataString)
+      console.log(data)
       switch(data.messageType){
         case "getEntriesServer":
-          // console.log(JSON.stringify(data.data))
           let types: string[] = [], dates: string[] = [], values: string[] = [], notes: string[] = []
           data.data.forEach((e: { entryType: string; entryDate: string; entryValue: string; entryNote: string; }) => {
             types.push(e.entryType)
@@ -73,6 +73,10 @@ export class DashboardService {
   changeTable(choice:number){
     const changeTableClient = {messageType:"changeTableClient", tableId:choice}
     this.wsSocket.sendMessage(JSON.stringify(changeTableClient))
+  }
+  changeTableId(up:boolean, id:number){
+    const changeTableId = {messageType:"changeTableIdClient", up:up, tableId:id}
+    this.wsSocket.sendMessage(JSON.stringify(changeTableId))
   }
 
   getTableType(){

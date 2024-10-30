@@ -31,19 +31,25 @@ async function startRedisRoutine() {
   await redisClient.connect();
   try {
     // Chargement des infos générales sur la bdd
-    const infosSize = await redisClient.get('infos.size')
-    for(let i = 0; i<infosSize; i++){
-      let cour = await redisClient.get('infos.'+i)
-      tableNames.push(cour)
-      let fullName = await redisClient.get(cour+'.infos.name')
-      tableFullNames.push(fullName)
-    }
+    loadTableNames()
 
     // Chargement des tables
     lastTable = Number(await redisClient.get('infos.lastTable'))
     // loadTable(0)
   } catch (err) {
     console.error(err);
+  }
+}
+
+async function loadTableNames() {
+  tableNames = []
+  tableFullNames = []
+  const infosSize = await redisClient.get('infos.size')
+  for(let i = 0; i<infosSize; i++){
+    let cour = await redisClient.get('infos.'+i)
+    tableNames.push(cour)
+    let fullName = await redisClient.get(cour+'.infos.name')
+    tableFullNames.push(fullName)
   }
 }
 
@@ -114,6 +120,35 @@ async function sendTotalToClient(clientId, tableId) {
   else clients.at(clientId).send(JSON.stringify(getTotalServer))
 }
 
+async function changeTableId(clientId, up, tableId){
+  if(up && tableId==0) return
+  if(up){
+    let courA = await redisClient.get('infos.'+(tableId-1))
+    let courB = await redisClient.get('infos.'+tableId)
+    await redisClient.set("infos."+tableId,courA)
+    await redisClient.set("infos."+(tableId-1),courB)
+  }
+  else{
+    let tableSize = Number(await redisClient.get("infos.size"))
+    if((tableId+1)==tableSize && !up) return
+    let courA = await redisClient.get('infos.'+(tableId+1))
+    let courB = await redisClient.get('infos.'+tableId)
+    await redisClient.set("infos."+tableId,courA)
+    await redisClient.set("infos."+(tableId+1),courB)
+  }
+  await loadTableNames()
+  await getTableChoice(clientId)
+  await sendTableInfosToClient(clientId)
+}
+
+async function getTableChoice(clientId) {
+  const getTableChoiceServerInit = {messageType:"getTableChoiceServer",
+    data:tableFullNames
+  }
+  if(clientId<0) broadcast(JSON.stringify(getTableChoiceServerInit))
+  else clients.at(clientId).send(JSON.stringify(getTableChoiceServerInit))
+}
+
 const wss = new Server({ server })
 let clients = []
 let usernames = []
@@ -131,10 +166,7 @@ wss.on('connection', (ws) => {
         // Début de connection
         usernames.push(data.username)
         sendEntriesToClient(id, lastTable)
-        const getTableChoiceServerInit = {messageType:"getTableChoiceServer",
-          data:tableFullNames
-        }
-        clients.at(id).send(JSON.stringify(getTableChoiceServerInit))
+        getTableChoice(id)
         sendTotalToClient(id, lastTable)
         sendTableInfosToClient(id)
         break;
@@ -146,6 +178,9 @@ wss.on('connection', (ws) => {
         sendEntriesToClient(id, data.tableId)
         changeLastTable(data.tableId)
         sendTotalToClient(id, lastTable)
+        break
+      case "changeTableIdClient":
+        changeTableId(id, data.up, data.tableId)
         break
       case "getTotalClient":
         sendTotalToClient(id, lastTable)
