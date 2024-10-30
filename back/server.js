@@ -63,6 +63,18 @@ async function changeLastTable(id){
   await redisClient.set('infos.lastTable', id)
 }
 
+async function registerEntry(tableId, data){
+  entryId = await redisClient.get(tableNames[tableId]+".infos.size")
+  console.log("entryId:",entryId," dataType:",data.entryType.toString())
+  await redisClient.set(tableNames[tableId]+"."+entryId+".type", data.entryType.toString())
+  await redisClient.set(tableNames[tableId]+"."+entryId+".date", data.entryDate.toString())
+  await redisClient.set(tableNames[tableId]+"."+entryId+".value", data.entryValue.toString())
+  await redisClient.set(tableNames[tableId]+"."+entryId+".note", data.entryNote.toString())
+  newSize = Number(entryId)+1
+  await redisClient.set(tableNames[tableId]+".infos.size", (newSize).toString())
+  sendEntriesToClient(-1, tableId)
+}
+
 
 const wss = new Server({ server })
 let clients = []
@@ -88,8 +100,8 @@ wss.on('connection', (ws) => {
         break;
       case "submitEntryClient":
         // Ajout d'une entrée
-        entries.push(data.data)
-        sendEntriesToClient(-1, 0)
+        // entries.push(data.data)
+        registerEntry(lastTable, data.data)
         break
       case "changeTableClient":
         sendEntriesToClient(id, data.tableId)
