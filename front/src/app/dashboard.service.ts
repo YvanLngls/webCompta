@@ -12,6 +12,7 @@ export class DashboardService {
   private entriesDate = new Subject<string[]>()
   private entriesValue = new Subject<string[]>()
   private entriesNote = new Subject<string[]>()
+  private tableChoice = new Subject<string[]>()
 
   constructor(private wsSocket:WebsocketService){
     const initClient = {
@@ -23,18 +24,25 @@ export class DashboardService {
       const data = JSON.parse(dataString)
       switch(data.messageType){
         case "getEntriesServer":
-          console.log(JSON.stringify(data.data))
+          // console.log(JSON.stringify(data.data))
           let types: string[] = [], dates: string[] = [], values: string[] = [], notes: string[] = []
           data.data.forEach((e: { entryType: string; entryDate: string; entryValue: string; entryNote: string; }) => {
             types.push(e.entryType)
             dates.push(e.entryDate)
             values.push(e.entryValue)
             notes.push(e.entryNote)
-          });
+          })
           this.entriesType.next(types)
           this.entriesDate.next(dates)
           this.entriesValue.next(values)
           this.entriesNote.next(notes)
+          break
+        case "getTableChoiceServer":
+          let choice: string[] = []
+          data.data.forEach((e: string)=>{
+            choice.push(e)
+          })
+          this.tableChoice.next(choice)
           break
         default:
           break
@@ -60,5 +68,9 @@ export class DashboardService {
   }
   getEntriesNote(){
     return this.entriesNote.asObservable()
+  }
+
+  getTableChoice(){
+    return this.tableChoice.asObservable()
   }
 }

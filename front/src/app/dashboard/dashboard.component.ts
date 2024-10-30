@@ -1,4 +1,4 @@
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EditEntryComponent } from '../edit-entry/edit-entry.component';
 import { ViewEntryComponent } from '../view-entry/view-entry.component';
@@ -15,7 +15,10 @@ import { DashboardService } from '../dashboard.service';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit{
+
+  showTableChoice = false
+  tableChoice:string[] = []
 
   entriesType:string[] = []
   entriesDate:string[] = []
@@ -29,6 +32,7 @@ export class DashboardComponent {
     this.dashboardService.getEntriesDate().subscribe(d=>this.entriesDate = d)
     this.dashboardService.getEntriesValue().subscribe(d=>this.entriesValue = d)
     this.dashboardService.getEntriesNote().subscribe(d=>this.entriesNote = d)
+    this.dashboardService.getTableChoice().subscribe(d=>this.tableChoice = d)
   }
 
 }

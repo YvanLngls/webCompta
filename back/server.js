@@ -14,6 +14,7 @@ const server = app.listen(port, () => {
 
 
 let tableNames = []
+let tableFullNames = []
 
 redisClient.on('connect', ()=>{
   console.log('Redis database connection established successfully')
@@ -32,6 +33,8 @@ async function startRedisRoutine() {
     for(let i = 0; i<infosSize; i++){
       let cour = await redisClient.get('infos.'+i)
       tableNames.push(cour)
+      let fullName = await redisClient.get(cour+'.infos.name')
+      tableFullNames.push(fullName)
     }
 
     // Chargement des tables
@@ -89,6 +92,10 @@ wss.on('connection', (ws) => {
           data:entries
         }
         clients.at(id).send(JSON.stringify(getEntriesServerInit))
+        const getTableChoiceServerInit = {messageType:"getTableChoiceServer",
+          data:tableFullNames
+        }
+        clients.at(id).send(JSON.stringify(getTableChoiceServerInit))
         break;
       case "submitEntryClient":
         // Ajout d'une entrée
