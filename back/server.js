@@ -16,6 +16,7 @@ const server = app.listen(port, () => {
 let tableNames = []
 let tableFullNames = []
 let lastTable
+let totIncome, totExpense
 
 redisClient.on('connect', ()=>{
   console.log('Redis database connection established successfully')
@@ -58,6 +59,15 @@ async function loadTable(id){
   }
 }
 
+async function sendEntriesToClient(clientId, tableId){
+  await loadTable(tableId)
+  let getEntriesServer = {messageType:"getEntriesServer",
+    data:entries
+  }
+  if(clientId<0) broadcast(JSON.stringify(getEntriesServer))
+  else clients.at(clientId).send(JSON.stringify(getEntriesServer))
+}
+
 async function changeLastTable(id){
   lastTable = id
   await redisClient.set('infos.lastTable', id)
@@ -65,7 +75,6 @@ async function changeLastTable(id){
 
 async function registerEntry(tableId, data){
   entryId = await redisClient.get(tableNames[tableId]+".infos.size")
-  console.log("entryId:",entryId," dataType:",data.entryType.toString())
   await redisClient.set(tableNames[tableId]+"."+entryId+".type", data.entryType.toString())
   await redisClient.set(tableNames[tableId]+"."+entryId+".date", data.entryDate.toString())
   await redisClient.set(tableNames[tableId]+"."+entryId+".value", data.entryValue.toString())
@@ -73,8 +82,24 @@ async function registerEntry(tableId, data){
   newSize = Number(entryId)+1
   await redisClient.set(tableNames[tableId]+".infos.size", (newSize).toString())
   sendEntriesToClient(-1, tableId)
+  sendTotalToClient(-1, lastTable)
 }
 
+async function sendTotalToClient(clientId, tableId) {
+  totIncome = 0
+  totExpense = 0
+
+  let tableSize = await redisClient.get(tableNames[tableId]+'.infos.size')
+  for(let i = 0; i<tableSize; i++){
+    let amount = Number(await redisClient.get(tableNames[tableId]+"."+i+".value"))
+    let type = await redisClient.get(tableNames[tableId]+"."+i+".type")
+    if(type==='false') totIncome+=amount
+    else totExpense+=amount
+  }
+  let getTotalServer = {messageType:"getTotalServer", totIncome:totIncome, totExpense:totExpense}
+  if(clientId<0) broadcast(JSON.stringify(getTotalServer))
+  else clients.at(clientId).send(JSON.stringify(getTotalServer))
+}
 
 const wss = new Server({ server })
 let clients = []
@@ -97,15 +122,19 @@ wss.on('connection', (ws) => {
           data:tableFullNames
         }
         clients.at(id).send(JSON.stringify(getTableChoiceServerInit))
+        sendTotalToClient(id, lastTable)
         break;
       case "submitEntryClient":
         // Ajout d'une entrée
-        // entries.push(data.data)
         registerEntry(lastTable, data.data)
         break
       case "changeTableClient":
         sendEntriesToClient(id, data.tableId)
         changeLastTable(data.tableId)
+        sendTotalToClient(id, lastTable)
+        break
+      case "getTotalClient":
+        sendTotalToClient(id, lastTable)
         break
       default:
         break
@@ -117,14 +146,7 @@ wss.on('connection', (ws) => {
     })
   })
   
-async function sendEntriesToClient(clientId, tableId){
-  await loadTable(tableId)
-  let getEntriesServer = {messageType:"getEntriesServer",
-    data:entries
-  }
-  if(clientId<0) broadcast(JSON.stringify(getEntriesServer))
-  else clients.at(clientId).send(JSON.stringify(getEntriesServer))
-}
+
 
 function broadcast(message){
   clients.forEach(client =>{

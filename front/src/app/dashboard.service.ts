@@ -13,6 +13,7 @@ export class DashboardService {
   private entriesValue = new Subject<string[]>()
   private entriesNote = new Subject<string[]>()
   private tableChoice = new Subject<string[]>()
+  private total = new Subject<string[]>()
 
   constructor(private wsSocket:WebsocketService){
     const initClient = {
@@ -43,6 +44,10 @@ export class DashboardService {
             choice.push(e)
           })
           this.tableChoice.next(choice)
+          break
+        case "getTotalServer":
+          let array = [data.totIncome, data.totExpense]
+          this.total.next(array)
           break
         default:
           break
@@ -77,5 +82,8 @@ export class DashboardService {
 
   getTableChoice(){
     return this.tableChoice.asObservable()
+  }
+  getTotal(){
+    return this.total.asObservable()
   }
 }

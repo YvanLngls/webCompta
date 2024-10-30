@@ -25,6 +25,9 @@ export class DashboardComponent implements OnInit{
   entriesValue:string[] = []
   entriesNote:string[] = []
 
+  totalIncome:string = "0"
+  totalExpense:string = "0"
+
   constructor(private dashboardService:DashboardService){ }
 
   ngOnInit(){
@@ -33,6 +36,10 @@ export class DashboardComponent implements OnInit{
     this.dashboardService.getEntriesValue().subscribe(d=>this.entriesValue = d)
     this.dashboardService.getEntriesNote().subscribe(d=>this.entriesNote = d)
     this.dashboardService.getTableChoice().subscribe(d=>this.tableChoice = d)
+    this.dashboardService.getTotal().subscribe(d=>{
+      this.totalIncome = d[0]
+      this.totalExpense = d[1]
+    })
   }
 
   changeTable(choice: number){
