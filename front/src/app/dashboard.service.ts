@@ -57,6 +57,11 @@ export class DashboardService {
     this.wsSocket.sendMessage(JSON.stringify(submitEntryClient))
   }
 
+  changeTable(choice:number){
+    const changeTableClient = {messageType:"changeTableClient", tableId:choice}
+    this.wsSocket.sendMessage(JSON.stringify(changeTableClient))
+  }
+
   getEntriesType(){
     return this.entriesType.asObservable()
   }

@@ -35,4 +35,9 @@ export class DashboardComponent implements OnInit{
     this.dashboardService.getTableChoice().subscribe(d=>this.tableChoice = d)
   }
 
+  changeTable(choice: number){
+    this.dashboardService.changeTable(choice)
+    console.log("click !")
+  }
+
 }

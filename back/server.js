@@ -15,6 +15,7 @@ const server = app.listen(port, () => {
 
 let tableNames = []
 let tableFullNames = []
+let lastTable
 
 redisClient.on('connect', ()=>{
   console.log('Redis database connection established successfully')
@@ -38,13 +39,15 @@ async function startRedisRoutine() {
     }
 
     // Chargement des tables
-    loadTable(0)
+    lastTable = Number(await redisClient.get('infos.lastTable'))
+    // loadTable(0)
   } catch (err) {
     console.error(err);
   }
 }
 
 async function loadTable(id){
+  entries = []
   let tableSize = await redisClient.get(tableNames[id]+'.infos.size')
   for(let j = 0; j<tableSize; j++){
     let entryData = {entryType: await redisClient.get(tableNames[id]+"."+j+".type"),
@@ -53,6 +56,11 @@ async function loadTable(id){
       entryNote: await redisClient.get(tableNames[id]+"."+j+".note")}
     entries.push(entryData)
   }
+}
+
+async function changeLastTable(id){
+  lastTable = id
+  await redisClient.set('infos.lastTable', id)
 }
 
 /*
@@ -88,10 +96,7 @@ wss.on('connection', (ws) => {
       case "initClient":
         // Début de connection
         usernames.push(data.username)
-        const getEntriesServerInit = {messageType:"getEntriesServer",
-          data:entries
-        }
-        clients.at(id).send(JSON.stringify(getEntriesServerInit))
+        sendEntriesToClient(id, lastTable)
         const getTableChoiceServerInit = {messageType:"getTableChoiceServer",
           data:tableFullNames
         }
@@ -100,22 +105,30 @@ wss.on('connection', (ws) => {
       case "submitEntryClient":
         // Ajout d'une entrée
         entries.push(data.data)
-        const getEntriesServer = {messageType:"getEntriesServer",
-          data:entries
-        }
-        broadcast(JSON.stringify(getEntriesServer))
+        sendEntriesToClient(-1, 0)
+        break
+      case "changeTableClient":
+        sendEntriesToClient(id, data.tableId)
+        changeLastTable(data.tableId)
         break
       default:
         break
-    }
-    
+      }
+    })
+    ws.on('close', () => {
+      console.log('Client disconnected')
+      clients = clients.filter(client => client!==ws)
+    })
   })
-
-  ws.on('close', () => {
-    console.log('Client disconnected')
-    clients = clients.filter(client => client!==ws)
-  })
-})
+  
+async function sendEntriesToClient(clientId, tableId){
+  await loadTable(tableId)
+  let getEntriesServer = {messageType:"getEntriesServer",
+    data:entries
+  }
+  if(clientId<0) broadcast(JSON.stringify(getEntriesServer))
+  else clients.at(clientId).send(JSON.stringify(getEntriesServer))
+}
 
 function broadcast(message){
   clients.forEach(client =>{
