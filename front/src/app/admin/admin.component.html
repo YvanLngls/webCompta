@@ -21,7 +21,22 @@
         </div>
     </div>
 </div>
-<div class="w-8 h-8 rounded-full border-white border
-    flex justify-center items-center">
-    <button class="p-1" (click)="addTable()">+</button>
+<div class="flex ">
+    <div>
+        <span class="text-sm p-2">Nom complet :</span>
+        <div class="flex items-center">
+            <input type="text" class="m-2 p-2 bg-black" [(ngModel)]="addFullName">
+        </div>
+    </div>
+    <div>
+        <span class="text-sm p-2">Nom court :</span>
+        <div class="flex items-center">
+            <input type="text" class="m-2 p-2 bg-black" [(ngModel)]="addShortName">
+            <div class="w-8 h-8 rounded-full border-white border
+            flex justify-center items-center 
+            hover:bg-black hover:scale-110 transition duration-300">
+                <button class="p-1" (click)="addTable()">+</button>
+            </div>
+        </div>
+    </div>
 </div>

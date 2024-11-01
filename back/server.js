@@ -149,6 +149,20 @@ async function getTableChoice(clientId) {
   else clients.at(clientId).send(JSON.stringify(getTableChoiceServerInit))
 }
 
+async function addTable(clientId, fullName, shortName){
+  let tableSize = Number(await redisClient.get("infos.size"))
+  let tableId = tableSize
+  tableSize++
+  await redisClient.set("infos.size", tableSize)
+  await redisClient.set("infos."+tableId, shortName)
+  await redisClient.set(shortName+".infos.name", fullName)
+  await redisClient.set(shortName+".infos.type", 1)
+  await redisClient.set(shortName+".infos.size", 0)
+  await loadTableNames()
+  await getTableChoice(clientId)
+  await sendTableInfosToClient(clientId)
+}
+
 const wss = new Server({ server })
 let clients = []
 let usernames = []
@@ -184,6 +198,9 @@ wss.on('connection', (ws) => {
         break
       case "getTotalClient":
         sendTotalToClient(id, lastTable)
+        break
+      case "addTableClient":
+        addTable(id, data.fullName, data.shortName)
         break
       default:
         break

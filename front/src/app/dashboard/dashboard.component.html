@@ -13,15 +13,15 @@
 
     </div>
 
-    {{tableFullName}}
+    {{tableFullName}} - {{tableBalance}}€
 
     <app-edit-entry class="w-1/2" *ngIf="tableType===1"></app-edit-entry>
     <div class="border border-white p-4 rounded-xl w-1/2 flex flex-col items-center">
         <div class="w-3/4 flex flex-col items-center">
-            <div class="flex">
-                <div class="">
-                    <div *ngFor="let item of entriesType; let i = index">
-                        <div *ngIf="item.toString()==='false'">
+            <div class="flex w-full">
+                <div class="w-1/2">
+                    <div *ngFor="let item of entriesType; let i = index" class="w-full">
+                        <div *ngIf="item.toString()==='false'" class="w-full">
                             <app-view-entry
                             [date]="entriesDate[i]"
                             [value]="entriesValue[i]"
@@ -34,8 +34,8 @@
                 <div class="border border-white"></div>
                 
                 <div>
-                    <div *ngFor="let item of entriesType; let i = index">
-                        <div *ngIf="item.toString()==='true'">
+                    <div *ngFor="let item of entriesType; let i = index" class="w-full">
+                        <div *ngIf="item.toString()==='true'" class="w-full">
                             <app-view-entry
                             [date]="entriesDate[i]"
                             [value]="entriesValue[i]"

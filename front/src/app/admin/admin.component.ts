@@ -16,6 +16,9 @@ export class AdminComponent implements OnInit{
   tableSize: string[] = []
   newId: number[] = []
 
+  addFullName = ""
+  addShortName = ""
+
   constructor(private dashboardService:DashboardService){ }
 
   ngOnInit() {
@@ -32,6 +35,6 @@ export class AdminComponent implements OnInit{
   }
 
   addTable(){
-      
+    this.dashboardService.addTable(this.addFullName, this.addShortName)
   }
 }

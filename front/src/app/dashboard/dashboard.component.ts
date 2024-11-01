@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit{
 
   tableType:number = 0
   tableFullName:string = ""
+  tableBalance:number = 0
   entriesType:string[] = []
   entriesDate:string[] = []
   entriesValue:string[] = []
@@ -34,7 +35,8 @@ export class DashboardComponent implements OnInit{
 
   ngOnInit(){
     this.dashboardService.getTableType().subscribe(d=>this.tableType = d)
-    this.dashboardService.getTableFullname().subscribe(d=>this.tableFullName= d)
+    this.dashboardService.getTableFullname().subscribe(d=>this.tableFullName = d)
+    this.dashboardService.getTableBalance().subscribe(d=>this.tableBalance = d)
     this.dashboardService.getEntriesType().subscribe(d=>this.entriesType = d)
     this.dashboardService.getEntriesDate().subscribe(d=>this.entriesDate = d)
     this.dashboardService.getEntriesValue().subscribe(d=>this.entriesValue = d)

@@ -10,6 +10,7 @@ export class DashboardService {
   userName = "Yvan"
   private tableType = new Subject<number>()
   private tableFullName = new Subject<string>()
+  private tableBalance = new Subject<number>()
   private entriesType = new Subject<string[]>()
   private entriesDate = new Subject<string[]>()
   private entriesValue = new Subject<string[]>()
@@ -42,6 +43,7 @@ export class DashboardService {
           this.entriesNote.next(notes)
           this.tableType.next(data.tableType)
           this.tableFullName.next(data.tableFullName)
+          this.tableBalance.next(data.tableBalance)
           break
         case "getTableChoiceServer":
           let choice: string[] = []
@@ -78,12 +80,19 @@ export class DashboardService {
     const changeTableId = {messageType:"changeTableIdClient", up:up, tableId:id}
     this.wsSocket.sendMessage(JSON.stringify(changeTableId))
   }
+  addTable(fullName:string, shortName:string){
+    const addTable = {messageType:"addTableClient", fullName:fullName, shortName:shortName}
+    this.wsSocket.sendMessage(JSON.stringify(addTable))
+  }
 
   getTableType(){
     return this.tableType.asObservable()
   }
   getTableFullname(){
     return this.tableFullName.asObservable()
+  }
+  getTableBalance(){
+    return this.tableBalance.asObservable()
   }
   getEntriesType(){
     return this.entriesType.asObservable()
