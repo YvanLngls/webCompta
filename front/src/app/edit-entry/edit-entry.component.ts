@@ -22,6 +22,7 @@ export class EditEntryComponent {
   entryDate: string = ""
   entryValue: string = "0"
   entryNote: string = "/" 
+  entryCategory: string = "Divers"
 
   constructor(private dashboardService:DashboardService){ }
 
@@ -30,7 +31,8 @@ export class EditEntryComponent {
     const entryData = {entryType: this.entryType,
       entryDate: new DatePipe("fr-FR").transform(this.entryDate,"dd/MM/yyyy"),
       entryValue: this.entryValue,
-      entryNote: this.entryNote
+      entryNote: this.entryNote,
+      entryCategory: this.entryCategory
     }
 
     this.dashboardService.submitEntry(entryData)

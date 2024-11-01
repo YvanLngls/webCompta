@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EditEntryComponent } from '../edit-entry/edit-entry.component';
 import { ViewEntryComponent } from '../view-entry/view-entry.component';
@@ -27,6 +27,7 @@ export class DashboardComponent implements OnInit{
   entriesDate:string[] = []
   entriesValue:string[] = []
   entriesNote:string[] = []
+  entriesCategory:string[] = []
 
   totalIncome:string = "0"
   totalExpense:string = "0"
@@ -41,6 +42,7 @@ export class DashboardComponent implements OnInit{
     this.dashboardService.getEntriesDate().subscribe(d=>this.entriesDate = d)
     this.dashboardService.getEntriesValue().subscribe(d=>this.entriesValue = d)
     this.dashboardService.getEntriesNote().subscribe(d=>this.entriesNote = d)
+    this.dashboardService.getEntriesCategory().subscribe(d=>this.entriesCategory = d)
     this.dashboardService.getTableChoice().subscribe(d=>this.tableChoice = d)
     this.dashboardService.getTotal().subscribe(d=>{
       this.totalIncome = d[0]

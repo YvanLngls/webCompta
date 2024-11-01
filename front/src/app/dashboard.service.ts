@@ -15,6 +15,7 @@ export class DashboardService {
   private entriesDate = new Subject<string[]>()
   private entriesValue = new Subject<string[]>()
   private entriesNote = new Subject<string[]>()
+  private entriesCategory = new Subject<string[]>()
   private tableChoice = new Subject<string[]>()
   private total = new Subject<string[]>()
   private listTableSize = new Subject<string[]>()
@@ -30,12 +31,13 @@ export class DashboardService {
       console.log(data)
       switch(data.messageType){
         case "getEntriesServer":
-          let types: string[] = [], dates: string[] = [], values: string[] = [], notes: string[] = []
-          data.data.forEach((e: { entryType: string; entryDate: string; entryValue: string; entryNote: string; }) => {
+          let types: string[] = [], dates: string[] = [], values: string[] = [], notes: string[] = [], category: string[] = []
+          data.data.forEach((e: { entryType: string; entryDate: string; entryValue: string; entryNote: string; entryCategory: string }) => {
             types.push(e.entryType)
             dates.push(e.entryDate)
             values.push(e.entryValue)
             notes.push(e.entryNote)
+            category.push(e.entryCategory)
           })
           this.entriesType.next(types)
           this.entriesDate.next(dates)
@@ -105,6 +107,9 @@ export class DashboardService {
   }
   getEntriesNote(){
     return this.entriesNote.asObservable()
+  }
+  getEntriesCategory(){
+    return this.entriesCategory.asObservable()
   }
 
   getTableChoice(){

@@ -60,7 +60,9 @@ async function loadTable(id){
     let entryData = {entryType: await redisClient.get(tableNames[id]+"."+j+".type"),
       entryDate: await redisClient.get(tableNames[id]+"."+j+".date"),
       entryValue: await redisClient.get(tableNames[id]+"."+j+".value"),
-      entryNote: await redisClient.get(tableNames[id]+"."+j+".note")}
+      entryNote: await redisClient.get(tableNames[id]+"."+j+".note"),
+      entryCategory: await redisClient.get(tableNames[id]+"."+j+"category")
+    }
     entries.push(entryData)
   }
 }
@@ -123,6 +125,7 @@ async function registerEntry(tableId, data){
   await redisClient.set(tableNames[tableId]+"."+entryId+".date", data.entryDate.toString())
   await redisClient.set(tableNames[tableId]+"."+entryId+".value", data.entryValue.toString())
   await redisClient.set(tableNames[tableId]+"."+entryId+".note", data.entryNote.toString())
+  await redisClient.set(tableNames[tableId]+"."+entryId+".category", data.entryCategory.toString())
   newSize = Number(entryId)+1
   await redisClient.set(tableNames[tableId]+".infos.size", (newSize).toString())
   sendEntriesToClient(-1, tableId)
