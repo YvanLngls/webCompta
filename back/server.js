@@ -65,6 +65,7 @@ async function loadTable(id){
   }
 }
 
+// Send general infos about all tables
 async function sendTableInfosToClient(clientId){
   let listTableSize = []
   let infosSize = await redisClient.get('infos.size');
@@ -80,8 +81,9 @@ async function sendEntriesToClient(clientId, tableId){
   await loadTable(tableId)
   let tableType = Number(await redisClient.get(tableNames[tableId]+".infos.type"))
   let tableFullName = await redisClient.get(tableNames[tableId]+".infos.name")
+  let tableBalance = Number(await redisClient.get(tableNames[tableId]+".infos.balance"))
   let getEntriesServer = {messageType:"getEntriesServer", tableType:tableType,
-    tableFullName:tableFullName, data:entries
+    tableFullName:tableFullName, tableBalance:tableBalance, data:entries
   }
   if(clientId<0) broadcast(JSON.stringify(getEntriesServer))
   else clients.at(clientId).send(JSON.stringify(getEntriesServer))
@@ -115,6 +117,7 @@ async function sendTotalToClient(clientId, tableId) {
     if(type==='false') totIncome+=amount
     else totExpense+=amount
   }
+  await redisClient.set(tableNames[tableId]+".infos.balance", (totIncome-totExpense).toFixed(2))
   let getTotalServer = {messageType:"getTotalServer", totIncome:totIncome, totExpense:totExpense}
   if(clientId<0) broadcast(JSON.stringify(getTotalServer))
   else clients.at(clientId).send(JSON.stringify(getTotalServer))
