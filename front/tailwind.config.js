@@ -4,7 +4,11 @@ module.exports = {
     "./src/**/*.{html,ts,js}", 
   ],
   theme: {
-    extend: {}, 
+    extend: {
+      fontFamily:{
+        droid: ['DroidSans', 'sans-serif']
+      }
+    }, 
   },
   plugins: [],
 }

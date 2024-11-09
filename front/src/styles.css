@@ -1,3 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@font-face {
+    font-family: 'DroidSans';
+    src: url('./assets/fonts/DroidSans.ttf') format('tff');
+    src: url('./assets/fonts/DroidSans.woff2') format('woff2');
+}

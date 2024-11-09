@@ -25,3 +25,31 @@ infos.lastTable -> id de la dernière table ouverte
 8) Investissement
 9) Cadeaux
 10) Divers
+
+## Protocole local
+
+### Server
+
+`getGeneralInfosServer` : Renvoies si la base de donnée est initialisée
+
+`getTableInfosServer` : Renvoies le nombre de tables dans la base
+
+`getTableChoiceServer` : Renvoies la liste des tables de la base
+
+`getTotalServer` : Renvoies les sommes totales de la table courante
+
+`getEntriesServer` : Renvoies les entrées de la table courante
+
+### Client
+
+`initClient` : Début d'une connexion
+
+`submitEntryClient` : Ajoute une entrée à la table courante
+
+`changeTableClient` : Change la table courante
+
+`changeTableIdClient` : Modifie l'id d'une table (admin)
+
+`getTotalClient` : Demandes les sommes totales de la table courante
+
+`addTableClient` : Ajoute une table

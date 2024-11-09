@@ -1,9 +1,13 @@
 <div>
-    Etat général : <span [class.text-blue-600]="dbInitialized>0" [class.text-red-500]="dbInitialized<0">{{dbInitializedLabel}}</span>
+    <div>
+        Etat général : <span [class.text-blue-600]="dbInitialized>0" [class.text-red-500]="dbInitialized<0">{{dbInitializedLabel}}</span>
+    </div>
 
     <div>
         Nombre de tables : {{tableSize}}
     </div>
 
-    Nombre de catégories : {{categoriesSize}}
+    <div>
+        Nombre de catégories : {{categoriesSize}}
+    </div>
 </div>

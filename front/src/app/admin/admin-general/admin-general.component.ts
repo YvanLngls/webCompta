@@ -10,10 +10,10 @@ import { DashboardService } from '../../dashboard.service';
 })
 export class AdminGeneralComponent implements OnInit{
 
-  dbInitializedLabel:string = "";
-  dbInitialized:number = 0;
-  tableSize:number = 0;
-  categoriesSize:number = 0;
+  dbInitializedLabel!:string;
+  dbInitialized!:number;
+  tableSize!:number;
+  categoriesSize!:number;
 
   constructor(private dashboardService:DashboardService) {  }
 

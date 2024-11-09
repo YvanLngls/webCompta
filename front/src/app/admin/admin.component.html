@@ -2,6 +2,18 @@
     Base de donnée
 </div>
 
-<app-admin-general></app-admin-general>
+<div class="m-4 w-fit">
+    <div class="flex border">
+        <div class="p-4 font-custom text-xl font-bold">Informations générales</div>
+        <mat-slide-toggle class="p-4" [ngModel]="showGeneral" (ngModelChange)="showGeneral = !showGeneral"></mat-slide-toggle>
+    </div>
+    <app-admin-general class="m-4" [class.hidden]="!showGeneral"></app-admin-general>
+</div>
 
-<app-admin-table></app-admin-table>
+<div class="m-4 min-w-fit">
+    <div class="flex border">
+        <div class="p-4 font-custom text-xl font-bold">Informations sur les tables</div>
+        <mat-slide-toggle class="p-4" [ngModel]="showTable" (ngModelChange)="showTable = !showTable"></mat-slide-toggle>
+    </div>
+    <app-admin-table [class.hidden]="!showTable"></app-admin-table>
+</div>
