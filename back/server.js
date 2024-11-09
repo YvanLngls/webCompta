@@ -88,6 +88,14 @@ async function loadGlobalTable(tableId){
   await computeTotal(tableId)
 }
 
+// 
+async function sendGeneralInfos(clientId) {
+  let initialized = await redisClient.get("infos.initialized")
+  if(initialized===null) initialized = -1
+  let getGeneralInfos = {messageType:"getGeneralInfosServer", initialized:initialized}
+  clients.at(clientId).send(JSON.stringify(getGeneralInfos))
+}
+
 // Send general infos about all tables
 async function sendTableInfosToClient(clientId){
   let listTableSize = []
@@ -213,6 +221,7 @@ wss.on('connection', (ws) => {
       case "initClient":
         // Début de connection
         usernames.push(data.username)
+        sendGeneralInfos(id)
         sendEntriesToClient(id, lastTable)
         getTableChoice(id)
         sendTotalToClient(id, lastTable)

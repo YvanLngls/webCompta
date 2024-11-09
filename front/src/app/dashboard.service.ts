@@ -19,6 +19,7 @@ export class DashboardService {
   private tableChoice = new Subject<string[]>()
   private total = new Subject<string[]>()
   private listTableSize = new Subject<string[]>()
+  private dbInitialized = new Subject<number>()
 
   constructor(private wsSocket:WebsocketService){
     const initClient = {
@@ -60,6 +61,9 @@ export class DashboardService {
           break
         case "getTableInfosServer":
           this.listTableSize.next(data.listTableSize)
+          break
+        case "getGeneralInfosServer":
+          this.dbInitialized.next(data.initialized)
           break
         default:
           break
@@ -120,5 +124,8 @@ export class DashboardService {
   }
   getListTableSize(){
     return this.listTableSize.asObservable()
+  }
+  getDbInitializedState(){
+    return this.dbInitialized.asObservable()
   }
 }

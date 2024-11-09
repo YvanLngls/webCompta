@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
+import { AdminGeneralComponent } from './admin/admin-general/admin-general.component';
 
 registerLocaleData(localeFr);
 

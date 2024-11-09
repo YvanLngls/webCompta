@@ -12,10 +12,9 @@ import { CommonModule } from '@angular/common';
 })
 export class AdminTableComponent implements OnInit{
 
-
   tableChoice: string[] = []
   tableSize: string[] = []
-  newId: number[] = []
+  // newId: number[] = []
 
   addFullName = ""
   addShortName = ""
@@ -25,8 +24,8 @@ export class AdminTableComponent implements OnInit{
   ngOnInit() {
     this.dashboardService.getTableChoice().subscribe(d=>{
       this.tableChoice = d
-      this.newId = []
-      for(let i = 0; i<d.length; i++) this.newId.push(i)
+      // this.newId = []
+      // for(let i = 0; i<d.length; i++) this.newId.push(i)
     })
     this.dashboardService.getListTableSize().subscribe(d=>this.tableSize = d)
   }
