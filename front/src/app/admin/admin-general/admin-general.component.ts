@@ -29,7 +29,7 @@ export class AdminGeneralComponent implements OnInit{
       } 
       else this.dbInitializedLabel = "Error / Not initialized"
     })
-  
+    this.dashboardService.getCategorySize().subscribe(d=>this.categoriesSize=d)
   }
 
 }

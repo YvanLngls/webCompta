@@ -140,4 +140,7 @@ export class DashboardService {
   getDbInitializedState(){
     return this.dbInitialized.asObservable()
   }
+  getCategorySize(){
+    return this.categorySize.asObservable()
+  }
 }
