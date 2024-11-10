@@ -18,6 +18,8 @@ export class AdminGeneralComponent implements OnInit{
   constructor(private dashboardService:DashboardService) {  }
 
   ngOnInit(): void {
+    this.dashboardService.getGeneralInfos()
+    
     this.dashboardService.getListTableSize().subscribe(d=>this.tableSize = d.length)
     this.dashboardService.getDbInitializedState().subscribe(d=>{
       this.dbInitialized = d

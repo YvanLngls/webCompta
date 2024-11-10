@@ -20,6 +20,7 @@ export class DashboardService {
   private total = new Subject<string[]>()
   private listTableSize = new Subject<string[]>()
   private dbInitialized = new Subject<number>()
+  private categorySize = new Subject<number>()
 
   constructor(private wsSocket:WebsocketService){
     const initClient = {
@@ -64,11 +65,22 @@ export class DashboardService {
           break
         case "getGeneralInfosServer":
           this.dbInitialized.next(data.initialized)
+          this.categorySize.next(data.categorySize)
           break
         default:
           break
       }
     })
+  }
+
+  getGeneralInfos(){
+    const getGeneralInfosClient = {messageType:"getGeneralInfosClient"}
+    this.wsSocket.sendMessage(JSON.stringify(getGeneralInfosClient))
+  }
+
+  getTableInfos(){
+    const getTableInfosClient = {messageType:"getTableInfosClient"}
+    this.wsSocket.sendMessage(JSON.stringify(getTableInfosClient))
   }
 
   submitEntry(entry:any){

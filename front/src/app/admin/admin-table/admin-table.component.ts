@@ -22,10 +22,9 @@ export class AdminTableComponent implements OnInit{
   constructor(private dashboardService:DashboardService){ }
 
   ngOnInit() {
+    this.dashboardService.getTableInfos()
     this.dashboardService.getTableChoice().subscribe(d=>{
       this.tableChoice = d
-      // this.newId = []
-      // for(let i = 0; i<d.length; i++) this.newId.push(i)
     })
     this.dashboardService.getListTableSize().subscribe(d=>this.tableSize = d)
   }
