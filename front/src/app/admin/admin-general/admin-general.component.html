@@ -1,6 +1,7 @@
 <div>
     <div>
         Etat général : <span [class.text-blue-600]="dbInitialized>0" [class.text-red-500]="dbInitialized<0">{{dbInitializedLabel}}</span>
+        <button class="m-4 py-2 px-4 bg-neutral-700 hover:bg-neutral-800 rounded-lg" (click)="initDb()">Initialiser</button>
     </div>
 
     <div>

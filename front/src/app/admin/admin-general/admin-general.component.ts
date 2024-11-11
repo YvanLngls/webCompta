@@ -32,4 +32,8 @@ export class AdminGeneralComponent implements OnInit{
     this.dashboardService.getCategorySize().subscribe(d=>this.categoriesSize=d)
   }
 
+  initDb(){
+    
+  }
+
 }
