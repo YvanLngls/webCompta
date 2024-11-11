@@ -2,18 +2,27 @@
     Base de donnée
 </div>
 
-<div class="m-4 w-fit">
-    <div class="flex border">
+<div class="m-4">
+    <div class="flex border w-fit">
         <div class="p-4 font-custom text-xl font-bold">Informations générales</div>
         <mat-slide-toggle class="p-4" [ngModel]="showGeneral" (ngModelChange)="showGeneral = !showGeneral"></mat-slide-toggle>
     </div>
     <app-admin-general class="m-4" [class.hidden]="!showGeneral"></app-admin-general>
 </div>
 
-<div class="m-4 min-w-fit">
-    <div class="flex border">
+<div class="m-4">
+    <div class="flex border w-fit">
         <div class="p-4 font-custom text-xl font-bold">Informations sur les tables</div>
         <mat-slide-toggle class="p-4" [ngModel]="showTable" (ngModelChange)="showTable = !showTable"></mat-slide-toggle>
     </div>
     <app-admin-table [class.hidden]="!showTable"></app-admin-table>
 </div>
+
+<div class="m-4">
+    <div class="flex border w-fit">
+        <div class="p-4 font-custom text-xl font-bold">Catégories</div>
+        <mat-slide-toggle class="p-4" [ngModel]="showCategory" (ngModelChange)="showCategory = !showCategory"></mat-slide-toggle>
+    </div>
+    <app-admin-category [class.hidden]="!showCategory"></app-admin-category>
+</div>
+

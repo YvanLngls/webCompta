@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../../dashboard.service';
+import { MatDialog } from '@angular/material/dialog';
+import { InitDbConfirmationComponent } from './init-db-confirmation/init-db-confirmation.component';
 
 @Component({
   selector: 'app-admin-general',
@@ -15,7 +17,7 @@ export class AdminGeneralComponent implements OnInit{
   tableSize!:number;
   categoriesSize!:number;
 
-  constructor(private dashboardService:DashboardService) {  }
+  constructor(private dashboardService:DashboardService, public dialog:MatDialog) {  }
 
   ngOnInit(): void {
     this.dashboardService.getGeneralInfos()
@@ -33,6 +35,7 @@ export class AdminGeneralComponent implements OnInit{
   }
 
   initDb(){
-    this.dashboardService.initDB()  }
+    this.dialog.open(InitDbConfirmationComponent)
+  }
 
 }
