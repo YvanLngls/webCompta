@@ -17,7 +17,6 @@ import { DashboardService } from '../dashboard.service';
 })
 export class DashboardComponent implements OnInit{
 
-  showTableChoice = false
   tableChoice:string[] = []
 
   tableType:number = 0

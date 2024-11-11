@@ -90,6 +90,11 @@ export class DashboardService {
     this.wsSocket.sendMessage(JSON.stringify(getEntriesClient))
   }
 
+  initDB(){
+    const initDbClient = {messageType:"initDbClient"}
+    this.wsSocket.sendMessage(JSON.stringify(initDbClient))
+  }
+
   submitEntry(entry:any){
     const submitEntryClient = {messageType:"submitEntryClient",
       data:entry

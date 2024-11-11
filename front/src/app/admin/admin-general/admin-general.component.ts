@@ -33,7 +33,6 @@ export class AdminGeneralComponent implements OnInit{
   }
 
   initDb(){
-    
-  }
+    this.dashboardService.initDB()  }
 
 }

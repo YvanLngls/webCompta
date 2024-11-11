@@ -22,6 +22,8 @@ export class AdminTableComponent implements OnInit{
   constructor(private dashboardService:DashboardService){ }
 
   ngOnInit() {
+    this.dashboardService.getTableChoiceClient()
+
     this.dashboardService.getTableInfos()
     this.dashboardService.getTableChoice().subscribe(d=>{
       this.tableChoice = d

@@ -1,14 +1,9 @@
 <div class="flex flex-col items-center min-h-screen">
 
     <div class="flex">
-        <button class="bg-neutral-700 hover:bg-neutral-800 text-white font-bold py-2 px-4 rounded-lg" (click)="showTableChoice = !showTableChoice">
-            Changer table
-        </button>
-        <div *ngIf="showTableChoice">
-            <select class="appearance-none cursor-pointer bg-neutral-700 hover:bg-neutral-800 py-2 px-4 mx-4 rounded-lg">
-                <option *ngFor="let choice of tableChoice; let i = index" (click)="changeTable(i)">{{choice}}</option>
-            </select>
-        </div>
+        <select class="appearance-none cursor-pointer bg-neutral-700 hover:bg-neutral-800 py-2 px-8 px-4 m-4 rounded-lg">
+            <option *ngFor="let choice of tableChoice; let i = index" (click)="changeTable(i)">{{choice}}</option>
+        </select>
 
     </div>
 

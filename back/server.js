@@ -88,6 +88,35 @@ async function loadGlobalTable(tableId){
   await computeTotal(tableId)
 }
 
+async function initDB(clientId) {
+  await redisClient.del("*")
+  await redisClient.set("infos.initialized", 1)
+  // Initialisation des tables de base
+  await redisClient.set("infos.size", 2)
+  await redisClient.set("infos.0", "glo")
+  await redisClient.set("infos.1", "ban")
+  // Initialisation des catégories
+  await redisClient.set("infos.category.size", 0)
+  // Initialisation du choix des tables
+  await redisClient.set("infos.lastTable", 0)
+  // Initialisation de la table 'Banque'
+  await redisClient.set("ban.infos.type", 1)
+  await redisClient.set("ban.infos.size", 0)
+  await redisClient.set("ban.infos.balance", "0.00")
+  await redisClient.set("ban.infos.name", "Banque")
+  // Initialisation de la table 'Globale'
+  await redisClient.set("glo.infos.type", 0)
+  await redisClient.set("glo.infos.balance", "0.00")
+  await redisClient.set("glo.infos.name", "Global")
+  await loadGlobalTable(0)
+
+  await loadTableNames()
+  
+  await sendGeneralInfos(clientId)
+  await sendTableInfosToClient(clientId)
+  await getTableChoice(clientId)
+}
+
 // 
 async function sendGeneralInfos(clientId) {
   let initialized = await redisClient.get("infos.initialized")
@@ -223,9 +252,12 @@ wss.on('connection', (ws) => {
         // Début de connection
         usernames.push(data.username)
         break
+      case "initDbClient":
+        initDB(id)
+        break
       case "getGeneralInfosClient":
-          sendGeneralInfos(id)
-          break
+        sendGeneralInfos(id)
+        break
       case "getTableInfosClient":
         sendTableInfosToClient(id)
         break
