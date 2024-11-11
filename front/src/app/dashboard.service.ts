@@ -77,10 +77,13 @@ export class DashboardService {
     const getGeneralInfosClient = {messageType:"getGeneralInfosClient"}
     this.wsSocket.sendMessage(JSON.stringify(getGeneralInfosClient))
   }
-
   getTableInfos(){
     const getTableInfosClient = {messageType:"getTableInfosClient"}
     this.wsSocket.sendMessage(JSON.stringify(getTableInfosClient))
+  }
+  getTableChoiceClient(){
+    const getTableChoiceClient = {messageType:"getTableChoiceClient"}
+    this.wsSocket.sendMessage(JSON.stringify(getTableChoiceClient))
   }
 
   submitEntry(entry:any){

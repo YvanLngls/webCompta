@@ -223,7 +223,6 @@ wss.on('connection', (ws) => {
         // Début de connection
         usernames.push(data.username)
         sendEntriesToClient(id, lastTable)
-        getTableChoice(id)
         sendTotalToClient(id, lastTable)
         break
       case "getGeneralInfosClient":
@@ -236,6 +235,9 @@ wss.on('connection', (ws) => {
         // Ajout d'une entrée
         registerEntry(lastTable, data.data)
         break
+      case "getTableChoiceClient":
+          getTableChoice(id)
+          break
       case "changeTableClient":
         sendEntriesToClient(id, data.tableId)
         changeLastTable(data.tableId)

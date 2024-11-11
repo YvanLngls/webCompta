@@ -35,6 +35,8 @@ export class DashboardComponent implements OnInit{
   constructor(private dashboardService:DashboardService){ }
 
   ngOnInit(){
+    this.dashboardService.getTableChoiceClient()
+
     this.dashboardService.getTableType().subscribe(d=>this.tableType = d)
     this.dashboardService.getTableFullname().subscribe(d=>this.tableFullName = d)
     this.dashboardService.getTableBalance().subscribe(d=>this.tableBalance = d)

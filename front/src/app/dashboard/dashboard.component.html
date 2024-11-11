@@ -6,7 +6,7 @@
         </button>
         <div *ngIf="showTableChoice">
             <select class="appearance-none cursor-pointer">
-                <option *ngFor="let choice of tableChoice; let i = index">{{choice}}</option>
+                <option *ngFor="let choice of tableChoice; let i = index" (click)="changeTable(i)">{{choice}}</option>
             </select>
         </div>
 
