@@ -222,14 +222,16 @@ wss.on('connection', (ws) => {
       case "initClient":
         // Début de connection
         usernames.push(data.username)
-        sendEntriesToClient(id, lastTable)
-        sendTotalToClient(id, lastTable)
         break
       case "getGeneralInfosClient":
           sendGeneralInfos(id)
           break
       case "getTableInfosClient":
         sendTableInfosToClient(id)
+        break
+      case "getEntriesClient":
+        sendEntriesToClient(id, lastTable)
+        sendTotalToClient(id, lastTable)
         break
       case "submitEntryClient":
         // Ajout d'une entrée
