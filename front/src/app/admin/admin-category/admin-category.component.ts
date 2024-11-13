@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { DashboardService } from '../../dashboard.service';
 
 @Component({
   selector: 'app-admin-category',
@@ -9,18 +10,26 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './admin-category.component.html',
   styleUrl: './admin-category.component.css'
 })
-export class AdminCategoryComponent {
+export class AdminCategoryComponent implements OnInit{
 
-  categories:string[] = ["Maison", "Loisir"]
+  categories:string[] = []
 
   newCategoryName: string = ""
 
-  addCategory(){
+  constructor(private dashboardService: DashboardService){ }
 
+  ngOnInit(): void {
+    this.dashboardService.reqCategoryList()
+    this.dashboardService.getCategoryList().subscribe(d=>this.categories=d)
+  }
+
+  addCategory(){
+    this.dashboardService.addCategory(this.newCategoryName)
+    this.newCategoryName = ""
   }
 
   changeCategory(up:boolean, id:number){
-    
+    this.dashboardService.changeCategoryId(up, id)
   }
 
 }

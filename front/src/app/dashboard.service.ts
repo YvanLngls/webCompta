@@ -21,6 +21,7 @@ export class DashboardService {
   private listTableSize = new Subject<string[]>()
   private dbInitialized = new Subject<number>()
   private categorySize = new Subject<number>()
+  private categoryList = new Subject<string[]>()
 
   constructor(private wsSocket:WebsocketService){
     const initClient = {
@@ -66,6 +67,10 @@ export class DashboardService {
         case "getGeneralInfosServer":
           this.dbInitialized.next(data.initialized)
           this.categorySize.next(data.categorySize)
+          break
+        case "getCategoryListServer":
+          this.categoryList.next(data.data)
+          this.categorySize.next(data.data.length)
           break
         default:
           break
@@ -115,6 +120,19 @@ export class DashboardService {
     this.wsSocket.sendMessage(JSON.stringify(addTable))
   }
 
+  reqCategoryList(){
+    const getCategoryList = {messageType:"getCategortListClient"}
+    this.wsSocket.sendMessage(JSON.stringify(getCategoryList))
+  }
+  changeCategoryId(up:boolean, id:number){
+    const changeCategoryId = {messageType:"changeCategoryIdClient", up:up, categoryId:id}
+    this.wsSocket.sendMessage(JSON.stringify(changeCategoryId))
+  }
+  addCategory(categoryName:string){
+    const addCategory = {messageType:"addCategoryClient", categoryName:categoryName}
+    this.wsSocket.sendMessage(JSON.stringify(addCategory))
+  }
+
   getTableType(){
     return this.tableType.asObservable()
   }
@@ -154,5 +172,8 @@ export class DashboardService {
   }
   getCategorySize(){
     return this.categorySize.asObservable()
+  }
+  getCategoryList(){
+    return this.categoryList.asObservable()
   }
 }

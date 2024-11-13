@@ -213,6 +213,40 @@ async function changeTableId(clientId, up, tableId){
   await sendTableInfosToClient(clientId)
 }
 
+async function getCategoryList(clientId) {
+  let size = Number(await redisClient.get("infos.category.size"))
+  let list = []
+  for(let i = 0; i<size; i++){
+    list.push(await redisClient.get("infos.category."+i+".name"))
+  }
+  let getCategoryList = {messageType:"getCategoryListServer", data:list}
+  clients.at(clientId).send(JSON.stringify(getCategoryList))
+}
+
+async function changeCategoryId(clientId, up, categoryId) {
+  if(up && tableId==0) return
+  if(up){
+    let courA = await redisClient.get('infos.category.'+(categoryId-1)+'.name')
+    let courB = await redisClient.get('infos.category.'+categoryId+'.name')
+    await redisClient.set("infos.category."+categoryId+".name", courA)
+    await redisClient.set("infos.category."+(categoryId-1)+".name", courB)
+  }
+  else{
+    let courA = await redisClient.get('infos.category.'+(categoryId+1)+'.name')
+    let courB = await redisClient.get('infos.category.'+categoryId+'.name')
+    await redisClient.set("infos.category."+categoryId+".name", courA)
+    await redisClient.set("infos.category."+(categoryId+1)+".name", courB)
+  }
+  getCategoryList(clientId)
+}
+
+async function addCategory(clientId, categoryName) {
+  let size = Number(await redisClient.get('infos.category.size'))
+  await redisClient.set("infos.category."+size+".name", categoryName)
+  await redisClient.set("infos.category.size", (size+1))
+  getCategoryList(clientId)
+}
+
 async function getTableChoice(clientId) {
   const getTableChoiceServerInit = {messageType:"getTableChoiceServer",
     data:tableFullNames
@@ -285,6 +319,15 @@ wss.on('connection', (ws) => {
         break
       case "addTableClient":
         addTable(id, data.fullName, data.shortName)
+        break
+      case "getCategortListClient":
+        getCategoryList(id)
+        break
+      case "changeCategoryIdClient":
+        changeCategoryId(id, data.up, data.categoryId)
+        break
+      case "addCategoryClient":
+        addCategory(id, data.categoryName)
         break
       default:
         break
