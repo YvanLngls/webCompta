@@ -36,6 +36,8 @@ export class AdminTableComponent implements OnInit{
 
   addTable(){
     this.dashboardService.addTable(this.addFullName, this.addShortName)
+    this.addFullName = ""
+    this.addShortName = ""
   }
 
 }

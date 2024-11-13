@@ -224,7 +224,7 @@ async function getCategoryList(clientId) {
 }
 
 async function changeCategoryId(clientId, up, categoryId) {
-  if(up && tableId==0) return
+  if(up && categoryId==0) return
   if(up){
     let courA = await redisClient.get('infos.category.'+(categoryId-1)+'.name')
     let courB = await redisClient.get('infos.category.'+categoryId+'.name')
