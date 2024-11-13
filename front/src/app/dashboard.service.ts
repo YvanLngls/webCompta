@@ -121,7 +121,7 @@ export class DashboardService {
   }
 
   reqCategoryList(){
-    const getCategoryList = {messageType:"getCategortListClient"}
+    const getCategoryList = {messageType:"getCategoryListClient"}
     this.wsSocket.sendMessage(JSON.stringify(getCategoryList))
   }
   changeCategoryId(up:boolean, id:number){

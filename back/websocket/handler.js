@@ -1,0 +1,98 @@
+const { getCategoryList, changeCategoryId, addCategory } = require('../services/categories');
+const { getEntries, getTableFullName, getTableBalance } = require('../services/tables');
+
+async function handleMessage(message, ws) {
+    const data = JSON.parse(message);
+    console.log(data);
+  
+    switch(data.messageType) {
+
+        // Initialisation
+        case 'initClient':
+            // TODO
+            break;
+        case 'initDbClient':
+            // TODO
+            break;
+
+        // Général
+        case 'getGeneralInfosClient':
+            // TODO
+            break;
+
+        // Tables
+        case 'getTableInfosClient':
+            // TODO
+            break;
+        case 'getTableChoiceClient':
+            // TODO
+            break;
+        case 'changeTableClient':
+            // TODO
+            break;
+        case 'changeTableIdClient':
+            // TODO
+            break;
+        case 'addTableClient':
+            // TODO
+            break;
+
+        // Entrées
+        case 'getEntriesClient':
+            getEntriesServer(ws)
+            break;
+        case 'submitEntryClient':
+            // TODO
+            break;
+        case 'getTotalClient':
+            // TODO
+            break;
+
+        // Catégories
+        case 'getCategoryListClient':
+            await getCategoryListServer(ws);
+            break;
+        case 'changeCategoryIdClient':
+            await changeCategoryId(dara.up, data.categoryId);
+            break;
+        case 'addCategoryClient':
+            await addCategory(data.categoryName);
+            break;
+
+        // Défaut
+        default:
+            console.warn(`Unknown message: ${data.messageType}`);
+            break;
+
+    }
+}
+
+function handleClose(ws, clients) {
+    clients.splice(clients.indexOf(ws), 1);
+    console.log('Client removed from client list');
+}
+
+module.exports = {
+handleMessage,
+handleClose
+};
+
+
+async function getCategoryListServer(ws) {
+    const categories = await getCategoryList()
+    ws.send(JSON.stringify({ messageType: 'getCategoryListServer', data: categories }))
+}
+
+async function getEntriesServer(ws) {
+    const tableType = await getTableType()
+    const entries = await getEntries()
+    const tableFullName = await getTableFullName()
+    const tableBalance = await getTableBalance()
+    ws.send(JSON.stringify({ 
+        messageType:'getEntriesServer',
+        tableType:tableType,
+        tableFullName: tableFullName,
+        tableBalance: tableBalance,
+        data:entries,
+    }))
+}
