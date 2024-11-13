@@ -6,7 +6,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily:{
-        droid: ['DroidSans', 'sans-serif']
+        droid: ['DroidSans', 'sans-serif'],
+        mentalis: ['Mentalis']
       }
     }, 
   },

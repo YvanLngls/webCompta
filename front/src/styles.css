@@ -4,6 +4,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 @font-face {
     font-family: 'DroidSans';
-    src: url('./assets/fonts/DroidSans.ttf') format('tff');
+    src: url('./assets/fonts//DroidSans.ttf') format('tff');
     src: url('./assets/fonts/DroidSans.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Mentalis';
+    src: url('./assets/fonts/Mentalis.ttf') format('ttf');
+    src: url('./assets/fonts/Mentalis.woff2') format('woff2');
+
 }

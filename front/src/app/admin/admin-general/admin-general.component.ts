@@ -26,10 +26,10 @@ export class AdminGeneralComponent implements OnInit{
     this.dashboardService.getDbInitializedState().subscribe(d=>{
       this.dbInitialized = d
       if(d>=0){
-        if(d==0) this.dbInitializedLabel = "Not initialized"
-        else if (d==1) this.dbInitializedLabel = "Initialized" 
+        if(d==0) this.dbInitializedLabel = "Non initialisé"
+        else if (d==1) this.dbInitializedLabel = "Initialisé" 
       } 
-      else this.dbInitializedLabel = "Error / Not initialized"
+      else this.dbInitializedLabel = "Erreur / Non initialisé"
     })
     this.dashboardService.getCategorySize().subscribe(d=>this.categoriesSize=d)
   }

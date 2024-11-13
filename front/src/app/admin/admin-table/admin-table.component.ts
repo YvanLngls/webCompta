@@ -14,7 +14,6 @@ export class AdminTableComponent implements OnInit{
 
   tableChoice: string[] = []
   tableSize: string[] = []
-  // newId: number[] = []
 
   addFullName = ""
   addShortName = ""
