@@ -2,7 +2,7 @@ const { get, set } = require('../database');
 
 // Initialiser les catégories par défaut
 async function initCategories() {
-  await setValue('infos.category.size', 0);
+  await set('infos.category.size', 0);
 }
 
 // Récupérer la liste des catégories

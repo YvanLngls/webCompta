@@ -1,5 +1,23 @@
 const { get, set } = require('../database');
 
+async function initTable() {
+    await set("infos.size", 2)
+    await set("infos.0","glo")
+    await set("infos.1","ban")
+
+    await set("infos.lastTable", 0)
+
+    await set("ban.infos.type",1)
+    await set("ban.infos.size",0)
+    await set("ban.infos.balance","0.00")
+    await set("ban.infos.name","Banque")
+
+    await set("glo.infos.type",0)
+    await set("glo.infos.size",0)
+    await set("glo.infos.balance","0.00")
+    await set("glo.infos.name","Global")
+}
+
 async function getLastTable(){
     let lastTableId = Number(await get('infos.lastTable'));
     let table = Number(await get(`infos.${lastTableId}`))
@@ -119,6 +137,7 @@ async function getTotal() {
 }
 
 module.exports = {
+    initTable,
     getLastTable,
     changeLastTable,
     getListTableName,

@@ -1,5 +1,8 @@
 const { getCategoryList, changeCategoryId, addCategory } = require('../services/categories');
-const { getEntries, getTableFullName, getTableBalance, addEntry, addTable, changeTableId, changeLastTable, getListTableSize } = require('../services/tables');
+const { getGeneralInfos, initInfos } = require('../services/infos');
+const { getEntries, getTableFullName, getTableBalance, addEntry,
+    addTable, changeTableId, changeLastTable, getListTableSize,
+    getListTableName, getTableType } = require('../services/tables');
 
 async function handleMessage(message, ws) {
     const data = JSON.parse(message);
@@ -12,40 +15,40 @@ async function handleMessage(message, ws) {
             // TODO
             break;
         case 'initDbClient':
-            // TODO
+            await initInfos()
             break;
 
         // Général
         case 'getGeneralInfosClient':
-            // TODO
+            await getGeneralInfosServer(ws)
             break;
 
         // Tables
         case 'getTableInfosClient':
-            getTableInfosServer(ws)
+            await getTableInfosServer(ws)
             break;
         case 'getTableChoiceClient':
-            getListTableNameServer(ws)
+            await getListTableNameServer(ws)
             break;
         case 'changeTableClient':
-            changeLastTable(data.tableId)
+            await changeLastTable(data.tableId)
             break;
         case 'changeTableIdClient':
-            changeTableId(data.tableId, data.up)
+            await changeTableId(data.tableId, data.up)
             break;
         case 'addTableClient':
-            addTable(data.fullName, data.shortName)
+            await addTable(data.fullName, data.shortName)
             break;
 
         // Entrées
         case 'getEntriesClient':
-            getEntriesServer(ws)
+            await getEntriesServer(ws)
             break;
         case 'submitEntryClient':
-            addEntry(data.data)
+            await addEntry(data.data)
             break;
         case 'getTotalClient':
-            getTotalServer(ws);
+            await getTotalServer(ws);
             break;
 
         // Catégories
@@ -107,7 +110,7 @@ async function getTotalServer(ws) {
 }
 
 async function getListTableNameServer(ws) {
-    const data = getListTableName()
+    const data = await getListTableName()
     ws.send(JSON.stringify({
         messageType:'getTableChoiceServer',
         data:data.tableFullName
@@ -119,5 +122,14 @@ async function getTableInfosServer(ws) {
     ws.send(JSON.stringify({
         messageType:`getTableInfosServer`,
         listTableSize:listTableSize.listTableSize
+    }))
+}
+
+async function getGeneralInfosServer(ws) {
+    const infos = await getGeneralInfos()
+    ws.send(JSON.stringify({
+        messageType:'getGeneralInfosServer',
+        initialized:infos.initialized,
+        categorySize: infos.categorySize
     }))
 }

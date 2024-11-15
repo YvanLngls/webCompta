@@ -1,5 +1,5 @@
 const { Server } = require('ws');
-const { handleMessage, handleClose } = require('./handlers');
+const { handleMessage, handleClose } = require('./handler');
 
 function setupWebSocket(server) {
   const wss = new Server({ server });
