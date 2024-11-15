@@ -320,7 +320,7 @@ wss.on('connection', (ws) => {
       case "addTableClient":
         addTable(id, data.fullName, data.shortName)
         break
-      case "getCategortListClient":
+      case "getCategoryListClient":
         getCategoryList(id)
         break
       case "changeCategoryIdClient":
