@@ -18,7 +18,7 @@ async function get(key) {
 }
 
 async function set(key, value) {
-  await redisClient.set(key, value);
+  await redisClient.set(key, value.toString());
 }
 
 async function deleteAll() {

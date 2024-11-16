@@ -105,6 +105,7 @@ export class DashboardService {
       data:entry
     }
     this.wsSocket.sendMessage(JSON.stringify(submitEntryClient))
+    this.getEntries()
   }
 
   changeTable(choice:number){
@@ -114,6 +115,7 @@ export class DashboardService {
   changeTableId(up:boolean, id:number){
     const changeTableId = {messageType:"changeTableIdClient", up:up, tableId:id}
     this.wsSocket.sendMessage(JSON.stringify(changeTableId))
+    this.getTableChoiceClient()
   }
   addTable(fullName:string, shortName:string){
     const addTable = {messageType:"addTableClient", fullName:fullName, shortName:shortName}

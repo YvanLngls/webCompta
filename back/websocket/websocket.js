@@ -9,7 +9,9 @@ function setupWebSocket(server) {
     console.log('Client connected');
     const id = clients.push(ws) - 1;
 
-    ws.on('message', (message) => handleMessage(message, ws));
+    ws.on('message', (message) => {
+      handleMessage(message, ws)
+    });
     
     ws.on('close', () => {
       console.log('Client disconnected');

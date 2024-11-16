@@ -12,7 +12,7 @@ app.use(express.static('public'));
 connectToRedis();
 
 // Initialisation d'infos au démarrage
-initInfos();
+// initInfos();
 
 // Serveur WebSocket
 const server = app.listen(port, () => {

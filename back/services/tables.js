@@ -31,7 +31,7 @@ async function changeLastTable(id) {
 async function getListTableName() {
     let tableNames = []
     let tableFullNames = []
-    let infosSize = Number(get(`infos.size`))
+    let infosSize = Number(await get("infos.size"))
     for(let i = 0; i<infosSize; i++){
         let cour = await get(`infos.${i}`)
         tableNames.push(cour)
@@ -51,16 +51,16 @@ async function getListTableSize(){
 }
 
 async function changeTableId(id, up) {
-    if(up && tableId==0) return
+    if(up && id==0) return
     if(up){
-        let courA = get(`infos.${(id-1)}`)
-        let courB = get(`infos.${id}`)
+        let courA = await get(`infos.${(id-1)}`)
+        let courB = await get(`infos.${id}`)
         await set(`infos.${id}`, courA)
         await set(`infos.${(id-1)}`, courB)
     }
     else {
-        let courA = get(`infos.${(id+1)}`)
-        let courB = get(`infos.${id}`)
+        let courA = await get(`infos.${(id+1)}`)
+        let courB = await get(`infos.${id}`)
         await set(`infos.${id}`, courA)
         await set(`infos.${(id+1)}`, courB)
     }
@@ -122,7 +122,7 @@ async function addEntry(data) {
     await set(`${table}.infos.size`, (tableSize+1))
 }
 
-// COmpute and get the total of incomes and expenses
+// Compute and get the total of incomes and expenses
 async function getTotal() {
     let table = await getLastTable()
     let tableSize = Number(await get(`${table}.infos.size`))
