@@ -20,7 +20,7 @@ async function initTable() {
 
 async function getLastTable(){
     let lastTableId = Number(await get('infos.lastTable'));
-    let table = Number(await get(`infos.${lastTableId}`))
+    let table = await get(`infos.${lastTableId}`)
     return table;
 }
 
@@ -51,7 +51,7 @@ async function getListTableSize(){
 }
 
 async function changeTableId(id, up) {
-    if(up && id==0) return
+    if(up && id<=0) return
     if(up){
         let courA = await get(`infos.${(id-1)}`)
         let courB = await get(`infos.${id}`)
@@ -59,6 +59,8 @@ async function changeTableId(id, up) {
         await set(`infos.${(id-1)}`, courB)
     }
     else {
+        let tableSize = Number(await get('infos.size'))
+        if((id+1)==tableSize) return
         let courA = await get(`infos.${(id+1)}`)
         let courB = await get(`infos.${id}`)
         await set(`infos.${id}`, courA)
@@ -95,7 +97,7 @@ async function getEntries() {
 
 async function getTableType() {
     let table = await getLastTable()
-    let tableType = await get(`${table}.infos.type`)
+    let tableType = Number(await get(`${table}.infos.type`))
     return tableType
 }
 

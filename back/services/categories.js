@@ -2,7 +2,8 @@ const { get, set } = require('../database');
 
 // Initialiser les catégories par défaut
 async function initCategories() {
-  await set('infos.category.size', 0);
+  await set('infos.category.size', 1);
+  await set('infos.category.0.name', "Maison");
 }
 
 // Récupérer la liste des catégories
@@ -25,6 +26,8 @@ async function changeCategoryId(up, categoryId) {
     await set(`infos.category.${(categoryId-1)}.name`, courB)
   }
   else{
+    let catSize = Number(await get(`infos.category.size`))
+    if((categoryId+1)==catSize) return
     let courA = await get(`infos.category.${(categoryId+1)}.name`)
     let courB = await get(`infos.category.${categoryId}.name`)
     await set(`infos.category.${categoryId}.name`, courA)

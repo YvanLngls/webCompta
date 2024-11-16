@@ -16,6 +16,10 @@ async function handleMessage(message, ws) {
             break;
         case 'initDbClient':
             await initInfos()
+            await getGeneralInfosServer(ws)
+            await getTableInfosServer(ws)
+            await getListTableNameServer(ws)
+            await getCategoryListServer(ws);
             break;
 
         // Général
@@ -32,12 +36,15 @@ async function handleMessage(message, ws) {
             break;
         case 'changeTableClient':
             await changeLastTable(data.tableId)
+            await getEntriesServer(ws)
             break;
         case 'changeTableIdClient':
             await changeTableId(data.tableId, data.up)
+            await getListTableNameServer(ws)
             break;
         case 'addTableClient':
             await addTable(data.fullName, data.shortName)
+            await getListTableNameServer(ws)
             break;
 
         // Entrées
@@ -46,6 +53,7 @@ async function handleMessage(message, ws) {
             break;
         case 'submitEntryClient':
             await addEntry(data.data)
+            await getEntriesServer(ws)
             break;
         case 'getTotalClient':
             await getTotalServer(ws);
@@ -57,9 +65,11 @@ async function handleMessage(message, ws) {
             break;
         case 'changeCategoryIdClient':
             await changeCategoryId(data.up, data.categoryId);
+            await getCategoryListServer(ws);
             break;
         case 'addCategoryClient':
             await addCategory(data.categoryName);
+            await getCategoryListServer(ws);
             break;
 
         // Défaut

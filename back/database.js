@@ -22,7 +22,7 @@ async function set(key, value) {
 }
 
 async function deleteAll() {
-  await redisClient.del('*');
+  await redisClient.flushDb();
 }
 
 module.exports = {
