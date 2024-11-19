@@ -37,6 +37,7 @@ export class DashboardComponent implements OnInit{
     this.dashboardService.getTableChoiceClient()
     this.dashboardService.getEntries()
     this.dashboardService.getTableChoiceClient()
+    this.dashboardService.getTableBalanceClient()
 
     this.dashboardService.getTableType().subscribe(d=>this.tableType = d)
     this.dashboardService.getTableFullname().subscribe(d=>this.tableFullName = d)

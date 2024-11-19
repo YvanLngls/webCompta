@@ -131,7 +131,7 @@ async function getTotal() {
     let totalIncome = 0, totalExpense = 0
     for(let i = 0; i<tableSize; i++){
         let type = await get(`${table}.${i}.type`)
-        let value = await get(`${table}.${i}.value`)
+        let value = Number(await get(`${table}.${i}.value`))
         if(type==='false') totalIncome+=value
         else totalExpense+=value
     }

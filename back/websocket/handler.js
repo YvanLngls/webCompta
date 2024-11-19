@@ -2,7 +2,7 @@ const { getCategoryList, changeCategoryId, addCategory } = require('../services/
 const { getGeneralInfos, initInfos } = require('../services/infos');
 const { getEntries, getTableFullName, getTableBalance, addEntry,
     addTable, changeTableId, changeLastTable, getListTableSize,
-    getListTableName, getTableType } = require('../services/tables');
+    getListTableName, getTableType, getTotal } = require('../services/tables');
 
 async function handleMessage(message, ws) {
     const data = JSON.parse(message);

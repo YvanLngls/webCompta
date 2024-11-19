@@ -90,6 +90,10 @@ export class DashboardService {
     const getTableChoiceClient = {messageType:"getTableChoiceClient"}
     this.wsSocket.sendMessage(JSON.stringify(getTableChoiceClient))
   }
+  getTableBalanceClient(){
+    const getTableBalanceClient = {messageType:"getTotalClient"}
+    this.wsSocket.sendMessage(JSON.stringify(getTableBalanceClient))
+  }
   getEntries(){
     const getEntriesClient = {messageType:"getEntriesClient"}
     this.wsSocket.sendMessage(JSON.stringify(getEntriesClient))
