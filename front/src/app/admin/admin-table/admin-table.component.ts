@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AdminTableComponent implements OnInit{
 
-  tableChoice: string[] = []
+  tableChoice: { value: string }[] = []
   tableSize: string[] = []
 
   addFullName = ""
@@ -25,13 +25,18 @@ export class AdminTableComponent implements OnInit{
 
     this.dashboardService.getTableInfos()
     this.dashboardService.getTableChoice().subscribe(d=>{
-      this.tableChoice = d
+      this.tableChoice = d.map(item => ({ value: item }))
+
     })
     this.dashboardService.getListTableSize().subscribe(d=>this.tableSize = d)
   }
 
   changeTableId(up:boolean, id:number){
     this.dashboardService.changeTableId(up, id)
+  }
+
+  changeTableName(id:number){
+    // TODO : changement de nom -> this.tableChoice[id]
   }
 
   addTable(){

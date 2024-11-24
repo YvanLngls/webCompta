@@ -12,7 +12,7 @@
                     (click)="changeTableId(false,i)"><img src="img/arrow_drop_up.png"></button>
             </div>
             <div class="m-2 p-2">{{i+1}}</div>
-            <input type="text" class="w-4/8 m-2 p-2 bg-black text-white rounded-xl" [(ngModel)]="tableChoice[i]">
+            <input type="text" class="w-4/8 m-2 p-2 bg-black text-white rounded-xl" [(ngModel)]="choice.value" (ngModelChange)="changeTableName(i)">
             <div class="m-2 p-2">
                 {{tableSize[i]}} entrées
             </div>
