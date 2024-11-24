@@ -1,4 +1,5 @@
-import { Component} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DashboardService } from '../dashboard.service';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -9,22 +10,28 @@ registerLocaleData(localeFr);
 @Component({
   selector: 'app-edit-entry',
   standalone: true,
-  imports: [FormsModule,
+  imports: [CommonModule,
+    FormsModule,
     MatSlideToggleModule,
     DatePipe
   ],
   templateUrl: './edit-entry.component.html',
   styleUrl: './edit-entry.component.css'
 })
-export class EditEntryComponent {
+export class EditEntryComponent implements OnInit{
 
   entryType: boolean = false
   entryDate: string = ""
   entryValue: string = "0"
   entryNote: string = "/" 
-  entryCategory: string = "Divers"
+  entryCategory: {value: string}[] = []
 
   constructor(private dashboardService:DashboardService){ }
+
+  ngOnInit(): void {
+    this.dashboardService.reqCategoryList()
+    this.dashboardService.getCategoryList().subscribe(d=>this.entryCategory = d.map(item => ({ value: item })))
+  }
 
   submitEntry(){
 

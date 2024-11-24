@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EditEntryComponent } from '../edit-entry/edit-entry.component';
 import { ViewEntryComponent } from '../view-entry/view-entry.component';

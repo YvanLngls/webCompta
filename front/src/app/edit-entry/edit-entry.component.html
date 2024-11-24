@@ -43,7 +43,9 @@
                 </li>
                 <li class="flex growth my-4">
                     <div class="border-2 border-black rounded-xl p-2 bg-white text-black">
-                        <select [(ngModel)]="entryCategory"></select>
+                        <select class="bg-white cursor-pointer  rounded-lg">
+                            <option *ngFor="let choice of entryCategory; let i = index">{{choice.value}}</option>
+                        </select>
                     </div>
                 </li>
             </ul>
