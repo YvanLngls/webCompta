@@ -33,7 +33,7 @@ export class AdminCategoryComponent implements OnInit{
   }
 
   changeCategoryName(id:number){
-    // TODO changeName -> categories[id]
+    this.dashboardService.changeCategoryName(id, this.categories[id].value)
   }
 
 }

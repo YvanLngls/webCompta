@@ -14,7 +14,7 @@
                          hover:scale-110 hover:bg-slate-800 transition duration-300"
                          (click)="changeCategory(false,i)"><img src="img/arrow_drop_up.png"></button>
                  </div>
-                 <input type="text" class="w-4/8 m-2 p-2 bg-black text-white rounded-xl" [(ngModel)]="category.value">
+                 <input type="text" class="w-4/8 m-2 p-2 bg-black text-white rounded-xl" [(ngModel)]="category.value" (ngModelChange)="changeCategoryName(i)">
              </div>
         </div>
     </div>

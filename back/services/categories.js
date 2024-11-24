@@ -35,6 +35,10 @@ async function changeCategoryId(up, categoryId) {
   }
 }
 
+async function changeCategoryName(id, name) {
+  await set(`infos.category.${id}.name`, name)
+}
+
 // Ajouter une catégorie
 async function addCategory(categoryName) {
   const size = Number(await get('infos.category.size'));
@@ -46,5 +50,6 @@ module.exports = {
   initCategories,
   getCategoryList,
   changeCategoryId,
+  changeCategoryName,
   addCategory
 };

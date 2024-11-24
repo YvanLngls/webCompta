@@ -136,6 +136,10 @@ export class DashboardService {
     const changeCategoryId = {messageType:"changeCategoryIdClient", up:up, categoryId:id}
     this.wsSocket.sendMessage(JSON.stringify(changeCategoryId))
   }
+  changeCategoryName(id:number, name:string){
+    const changeCategoryName = {messageType:"changeCategoryNameClient", id:id, name:name}
+    this.wsSocket.sendMessage(JSON.stringify(changeCategoryName))
+  }
   addCategory(categoryName:string){
     const addCategory = {messageType:"addCategoryClient", categoryName:categoryName}
     this.wsSocket.sendMessage(JSON.stringify(addCategory))
