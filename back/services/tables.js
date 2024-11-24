@@ -68,6 +68,11 @@ async function changeTableId(id, up) {
     }
 }
 
+async function changeTableName(id, name) {
+    let shortName = await get(`infos.${id}`)
+    await set(`${shortName}.infos.name`, name)
+}
+
 async function addTable(fullName, shortName) {
     let tableSize = Number(await get("infos.size"))
     await set(`infos.${tableSize}`, shortName)
@@ -145,6 +150,7 @@ module.exports = {
     getListTableName,
     getListTableSize,
     changeTableId,
+    changeTableName,
     addTable,
     getEntries,
     getTableType,

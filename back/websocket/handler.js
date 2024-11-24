@@ -1,7 +1,7 @@
 const { getCategoryList, changeCategoryId, addCategory } = require('../services/categories');
 const { getGeneralInfos, initInfos } = require('../services/infos');
 const { getEntries, getTableFullName, getTableBalance, addEntry,
-    addTable, changeTableId, changeLastTable, getListTableSize,
+    addTable, changeTableId, changeTableName, changeLastTable, getListTableSize,
     getListTableName, getTableType, getTotal } = require('../services/tables');
 
 async function handleMessage(message, ws) {
@@ -41,6 +41,9 @@ async function handleMessage(message, ws) {
         case 'changeTableIdClient':
             await changeTableId(data.tableId, data.up)
             await getListTableNameServer(ws)
+            break;
+        case 'changeTableNameClient':
+            changeTableName(data.id, data.name)
             break;
         case 'addTableClient':
             await addTable(data.fullName, data.shortName)

@@ -119,6 +119,10 @@ export class DashboardService {
     const changeTableId = {messageType:"changeTableIdClient", up:up, tableId:id}
     this.wsSocket.sendMessage(JSON.stringify(changeTableId))
   }
+  changeTableName(id:number, name:string){
+    const changeTableName = {messageType:"changeTableNameClient", id:id, name:name}
+    this.wsSocket.sendMessage(JSON.stringify(changeTableName))
+  }
   addTable(fullName:string, shortName:string){
     const addTable = {messageType:"addTableClient", fullName:fullName, shortName:shortName}
     this.wsSocket.sendMessage(JSON.stringify(addTable))

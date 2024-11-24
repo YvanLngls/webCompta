@@ -33,7 +33,7 @@ export class AdminTableComponent implements OnInit{
   }
 
   changeTableName(id:number){
-    // TODO : changement de nom -> this.tableChoice[id]
+    this.dashboardService.changeTableName(id, this.tableChoice[id].value)
   }
 
   addTable(){
