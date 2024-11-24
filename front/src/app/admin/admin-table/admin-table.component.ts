@@ -24,10 +24,7 @@ export class AdminTableComponent implements OnInit{
     this.dashboardService.getTableChoiceClient()
 
     this.dashboardService.getTableInfos()
-    this.dashboardService.getTableChoice().subscribe(d=>{
-      this.tableChoice = d.map(item => ({ value: item }))
-
-    })
+    this.dashboardService.getTableChoice().subscribe(d=>{this.tableChoice = d.map(item => ({ value: item }))})
     this.dashboardService.getListTableSize().subscribe(d=>this.tableSize = d)
   }
 

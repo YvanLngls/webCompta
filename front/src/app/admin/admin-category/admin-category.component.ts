@@ -12,7 +12,7 @@ import { DashboardService } from '../../dashboard.service';
 })
 export class AdminCategoryComponent implements OnInit{
 
-  categories:string[] = []
+  categories: {value: string}[] = []
 
   newCategoryName: string = ""
 
@@ -20,7 +20,7 @@ export class AdminCategoryComponent implements OnInit{
 
   ngOnInit(): void {
     this.dashboardService.reqCategoryList()
-    this.dashboardService.getCategoryList().subscribe(d=>this.categories=d)
+    this.dashboardService.getCategoryList().subscribe(d=>this.categories = d.map(item => ({ value: item })))
   }
 
   addCategory(){
@@ -30,6 +30,10 @@ export class AdminCategoryComponent implements OnInit{
 
   changeCategory(up:boolean, id:number){
     this.dashboardService.changeCategoryId(up, id)
+  }
+
+  changeCategoryName(id:number){
+    // TODO changeName -> categories[id]
   }
 
 }
