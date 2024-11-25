@@ -114,6 +114,7 @@ async function getEntriesServer(ws) {
         tableBalance: tableBalance,
         data:entries,
     }))
+    getTotalServer(ws)
 }
 
 async function getTotalServer(ws) {

@@ -140,6 +140,8 @@ async function getTotal() {
         if(type==='false') totalIncome+=value
         else totalExpense+=value
     }
+    let balance = totalIncome-totalExpense
+    await set(`${table}.infos.balance`,balance)
     return {totalIncome:totalIncome, totalExpense:totalExpense}
 }
 
