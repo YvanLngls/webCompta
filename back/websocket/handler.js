@@ -103,6 +103,7 @@ async function getCategoryListServer(ws) {
 }
 
 async function getEntriesServer(ws) {
+    getTotalServer(ws)
     const tableType = await getTableType()
     const entries = await getEntries()
     const tableFullName = await getTableFullName()
@@ -114,7 +115,6 @@ async function getEntriesServer(ws) {
         tableBalance: tableBalance,
         data:entries,
     }))
-    getTotalServer(ws)
 }
 
 async function getTotalServer(ws) {
